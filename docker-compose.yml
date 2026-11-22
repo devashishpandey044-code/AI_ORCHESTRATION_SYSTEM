@@ -1,0 +1,35 @@
+services:
+  db:
+    # pgvector image so Week 3 (method embeddings) needs no infra change
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: lifeos
+      POSTGRES_PASSWORD: lifeos
+      POSTGRES_DB: lifeos
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lifeos -d lifeos"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build: .
+    environment:
+      ENV: dev
+      DATABASE_URL: postgresql+psycopg://lifeos:lifeos@db:5432/lifeos
+      SECRET_KEY: ${SECRET_KEY:-dev-only-secret-change-me-dev-only-secret}
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    command: sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+
+volumes:
+  pgdata:
