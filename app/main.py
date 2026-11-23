@@ -4,7 +4,7 @@ import uuid
 
 from fastapi import FastAPI, Request
 
-from app.api import auth, constraints, goals, health
+from app.api import account, auth, constraints, goals, health
 from app.core.config import get_settings
 from app.core.logging import setup_logging
 
@@ -36,6 +36,7 @@ def create_app() -> FastAPI:
         return response
 
     app.include_router(health.router)
+    app.include_router(account.router)
     app.include_router(auth.router)
     app.include_router(goals.router)
     app.include_router(constraints.router)

@@ -35,3 +35,10 @@ GET /goals/tree loads all of a user's goals in one query and builds the tree in 
 dict keyed by goal id. This avoids one query per level and a recursive SQL query, and a user's
 goal count is small. A goal whose parent is missing is treated as a root, so a broken link never
 hides data. The route is declared above /{goal_id} so "tree" is not parsed as a goal id.
+
+## 009 - Account deletion deletes child rows explicitly
+DELETE /auth/me removes the user's goals and constraints in code before deleting the user,
+instead of relying only on ON DELETE CASCADE. Tests run on SQLite, which does not enforce
+foreign keys by default, so a cascade-only implementation passed in Postgres but left orphaned
+rows in the test database. Explicit deletes behave the same everywhere. The export endpoint
+returns the user's own data only and never includes the password hash.
