@@ -7,7 +7,7 @@ from sqlalchemy import select, update
 
 from app.api.deps import CurrentUser, DbSession
 from app.db.models import HORIZON_ORDER, Goal, GoalHorizon, GoalStatus, User
-from app.schemas.goal import GoalCreate, GoalOut, GoalUpdate
+from app.schemas.goal import GoalCreate, GoalOut, GoalTreeOut, GoalUpdate
 
 router = APIRouter(prefix="/goals", tags=["goals"])
 
@@ -62,6 +62,25 @@ def list_goals(
         stmt = stmt.where(Goal.parent_id == parent_id)
     stmt = stmt.order_by(Goal.created_at, Goal.id).limit(limit).offset(offset)
     return list(db.scalars(stmt))
+
+@router.get("/tree", response_model=list[GoalTreeOut])
+def goal_tree(user: CurrentUser, db: DbSession) -> list[GoalTreeOut]:
+    goals = list(
+        db.scalars(
+            select(Goal).where(Goal.user_id == user.id).order_by(Goal.created_at, Goal.id)
+        )
+    )
+
+    nodes = {g.id: GoalTreeOut.model_validate(g) for g in goals}
+    roots: list[GoalTreeOut] = []
+    for goal in goals:
+        node = nodes[goal.id]
+        parent = nodes.get(goal.parent_id)
+        if parent is None:
+            roots.append(node)
+        else:
+            parent.children.append(node)
+    return roots
 
 
 @router.get("/{goal_id}", response_model=GoalOut)

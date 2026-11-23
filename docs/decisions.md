@@ -29,3 +29,9 @@ Avoids painful `ALTER TYPE` migrations as the taxonomy evolves.
 ## 007 - Tests run on in-memory SQLite (for now)
 Fast feedback. Known gap: Postgres-specific behaviour is not covered. Add a Postgres service to CI
 once pgvector queries arrive in Week 3.
+
+## 008 - Goal tree built in Python from one query
+GET /goals/tree loads all of a user's goals in one query and builds the tree in memory with a
+dict keyed by goal id. This avoids one query per level and a recursive SQL query, and a user's
+goal count is small. A goal whose parent is missing is treated as a root, so a broken link never
+hides data. The route is declared above /{goal_id} so "tree" is not parsed as a goal id.
