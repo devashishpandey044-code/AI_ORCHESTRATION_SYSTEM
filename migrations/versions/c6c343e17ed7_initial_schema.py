@@ -6,10 +6,6 @@ Create Date: 2026-11-22 17:16:40.131674
 """
 from collections.abc import Sequence
 
-import sqlalchemy as sa
-from alembic import op
-
-
 revision: str = 'c6c343e17ed7'
 down_revision: str | None = 'c20def755c96'
 branch_labels: str | Sequence[str] | None = None

@@ -49,3 +49,7 @@ class GoalOut(BaseModel):
     last_reviewed_at: datetime | None
     created_at: datetime
     updated_at: datetime
+
+
+class GoalTreeOut(GoalOut):
+    children: list["GoalTreeOut"] = Field(default_factory=list)
