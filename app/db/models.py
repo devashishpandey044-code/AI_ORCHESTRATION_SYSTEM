@@ -16,6 +16,7 @@ from sqlalchemy import (
     String,
     Text,
     Time,
+    UniqueConstraint,
     Uuid,
     func,
     true,
@@ -132,3 +133,46 @@ class ScheduleConstraint(Base):
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
     )
+
+
+class LifeModelSource(enum.StrEnum):
+    ONBOARDING = "onboarding"  # extracted from the onboarding conversation, user-confirmed
+    USER_EDIT = "user_edit"  # the user changed it directly
+    SYSTEM = "system"  # reserved for later automated updates
+
+
+class LifeModelVersion(Base):
+    """Immutable snapshot of a user's Life Model. The current model is the highest version."""
+
+    __tablename__ = "life_model_versions"
+    __table_args__ = (UniqueConstraint("user_id", "version", name="uq_life_model_user_version"),)
+
+    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    user_id: Mapped[uuid.UUID] = mapped_column(Uuid, ForeignKey("users.id", ondelete="CASCADE"))
+    version: Mapped[int] = mapped_column(Integer)
+    source: Mapped[LifeModelSource] = mapped_column(_enum(LifeModelSource))
+    data: Mapped[dict] = mapped_column(JSON)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
+class LLMCall(Base):
+    """Metadata for each model call. Deliberately stores NO prompt or response text."""
+
+    __tablename__ = "llm_calls"
+    __table_args__ = (Index("ix_llm_calls_user_created", "user_id", "created_at"),)
+
+    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    user_id: Mapped[uuid.UUID | None] = mapped_column(
+        Uuid, ForeignKey("users.id", ondelete="SET NULL"), nullable=True
+    )
+    purpose: Mapped[str] = mapped_column(String(64))
+    provider: Mapped[str] = mapped_column(String(32))
+    model: Mapped[str] = mapped_column(String(100))
+    prompt_version: Mapped[str] = mapped_column(String(64))
+    attempts: Mapped[int] = mapped_column(Integer)
+    input_tokens: Mapped[int] = mapped_column(Integer)
+    output_tokens: Mapped[int] = mapped_column(Integer)
+    latency_ms: Mapped[float] = mapped_column(Float)
+    success: Mapped[bool] = mapped_column(Boolean)
+    error: Mapped[str | None] = mapped_column(String(500), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())

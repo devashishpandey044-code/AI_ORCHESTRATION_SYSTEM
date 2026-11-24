@@ -49,3 +49,16 @@ asks for JSON that matches a Pydantic schema, validates it, and retries once wit
 error. Nothing the model returns is used until it passes validation, which keeps the LLM in the
 "proposes" role. The fake provider makes every test free and deterministic, and the provider is
 chosen by environment variable so switching vendors needs no code change in features.
+
+## 011 - Life Model stored as immutable versions with provenance
+Each save appends a new row (user_id + version, unique together) instead of updating one. The
+current model is the highest version, and history supports the "view and correct your memory"
+requirement and later "what changed" features. Each item is tagged stated, belief or inferred,
+with an optional quote of the user's own words, so the model's guesses can never pass as facts.
+LifeModelData rejects unknown fields so a model cannot slip in data we do not expect.
+
+## 012 - LLM call log stores metadata only
+`llm_calls` keeps provider, model, prompt version, attempts, tokens, latency and a truncated
+error, but never prompt or response text, because those contain personal life details. A test
+asserts the table has no text columns. Account export and deletion were extended to cover the
+new tables, and a comment in the delete route reminds future changes to do the same.

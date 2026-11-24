@@ -63,3 +63,11 @@ def auth(client):
 @pytest.fixture()
 def other_auth(client):
     return make_user(client, "bob@example.com")
+
+
+@pytest.fixture()
+def db(engine):
+    """A plain session on the same test database, for testing services directly."""
+    session = sessionmaker(bind=engine, expire_on_commit=False, autoflush=False)()
+    yield session
+    session.close()
