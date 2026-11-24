@@ -57,3 +57,12 @@ Runs golden cases through the onboarding grounding check (a "stated" item must q
 user's own words) and reports the catch rate for invented items and the false-downgrade rate
 for genuine ones. It also lists known gaps, which are tracked in code but not in the gate.
 CI runs it on every push.
+
+## Safety check
+
+Free text goes through a deterministic crisis check before any model is called. If it triggers,
+the API returns fixed support information (region set by `CRISIS_REGION`) and nothing is sent
+to a model or saved. `python -m app.evals.safety` reports recall on risk statements and false
+positives on everyday phrases; CI runs it. This is a baseline, not a clinical tool: it misses
+indirect wording (tracked in `app/evals/safety_cases.py`), and the message and contact numbers
+must be reviewed by a qualified person and re-verified before real users.
