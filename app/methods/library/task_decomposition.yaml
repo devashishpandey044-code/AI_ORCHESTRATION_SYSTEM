@@ -1,0 +1,26 @@
+slug: task_decomposition
+title: Break it into a first step
+summary: Turn a big or vague task into small subtasks and schedule only the first one, so starting feels manageable.
+targets: [avoidance, unclear_next_step, overload]
+target_behavior: Start large tasks by completing one small, clearly defined subtask.
+difficulty: easy
+duration_minutes: 15
+schedule_kind: setup_once
+steps:
+  - Write the big task as one sentence and describe the outcome that would count as done.
+  - List three to five subtasks, each small enough to finish in one sitting of 25 to 45 minutes.
+  - Pick the first subtask and write its first physical action, such as opening the file and typing the heading.
+  - Put only that first subtask into tomorrow's schedule.
+  - After finishing it, choose the next subtask and repeat.
+ideal_context: Projects, applications and study topics that feel too large to begin.
+contraindications:
+  - Over-planning can become another way to avoid starting, so stop listing once the first subtask is clear.
+  - If the subtasks keep growing, the task may be too large for the time available and should be reduced.
+measurement: Number of big tasks whose first subtask was started within two days of the breakdown.
+evidence_level: moderate
+evidence_note: Specific near-term subgoals are linked to better persistence and self-efficacy in experiments. The evidence comes mostly from learning and goal-setting research, not from procrastination trials.
+sources:
+  - "Bandura, A., & Schunk, D. H. (1981). Cultivating competence, self-efficacy, and intrinsic interest through proximal self-motivation. Journal of Personality and Social Psychology, 41(3), 586-598."
+  - "Locke, E. A., & Latham, G. P. (2002). Building a practically useful theory of goal setting and task motivation. American Psychologist, 57(9), 705-717."
+escalation_note: null
+reviewed_on: null

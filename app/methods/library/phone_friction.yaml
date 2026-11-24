@@ -1,0 +1,25 @@
+slug: phone_friction
+title: Put the phone out of reach
+summary: Add physical distance between you and your phone during focus time so that getting distracted takes effort.
+targets: [distraction, poor_environment]
+target_behavior: Stay on one task for a full focus block without checking the phone.
+difficulty: easy
+duration_minutes: 2
+schedule_kind: before_block
+steps:
+  - Decide which block of the day needs full attention and when it starts.
+  - Before the block, switch the phone to do not disturb and put it in another room or a closed bag.
+  - Allow emergency calls by whitelisting one or two contacts.
+  - Choose a short check window after the block so messages have a definite time.
+  - Note how often you wanted to check the phone and compare across days.
+ideal_context: Study or work blocks at a desk where the phone is the main interruption.
+contraindications:
+  - If you must be reachable for family or health reasons, use do not disturb with allowed contacts instead of removing the phone.
+  - Does not help when the distraction comes from the computer itself, such as browser tabs.
+measurement: Unplanned phone checks during the block, reported by the user, and whether the block was completed.
+evidence_level: limited
+evidence_note: Some studies found that a phone nearby reduces available attention, but later replications were mixed. Treat this as a low-cost experiment, not a guaranteed fix.
+sources:
+  - "Ward, A. F., Duke, K., Gneezy, A., & Bos, M. W. (2017). Brain drain: The mere presence of one's own smartphone reduces available cognitive capacity. Journal of the Association for Consumer Research, 2(2), 140-154."
+escalation_note: null
+reviewed_on: null

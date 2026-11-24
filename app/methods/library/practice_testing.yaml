@@ -1,0 +1,26 @@
+slug: practice_testing
+title: Practice testing (active recall)
+summary: Study by trying to recall or solve without looking at notes, then check and correct, instead of rereading.
+targets: [ineffective_learning]
+target_behavior: Replace passive rereading with retrieval practice during study sessions.
+difficulty: medium
+duration_minutes: 30
+schedule_kind: daily_block
+steps:
+  - After studying a topic, close the notes and write or say everything you can remember about it.
+  - Or answer practice questions and solve problems from memory before looking at solutions.
+  - Check against the notes and mark what you missed or got wrong.
+  - Restudy only the missed parts, then test yourself on them again.
+  - Repeat the test on a later day so the material is retrieved after some forgetting.
+ideal_context: Exams and technical subjects where recall and problem solving are required.
+contraindications:
+  - It feels harder and less comfortable than rereading, which is expected and not a sign that it is failing.
+  - Start with easier material if you feel discouraged, so early tests are not mostly failures.
+measurement: Percentage of practice questions answered correctly over time, and test sessions per week.
+evidence_level: strong
+evidence_note: A large body of experimental research shows that retrieval practice improves long-term retention compared with restudying, and a major review rated practice testing as high utility.
+sources:
+  - "Dunlosky, J., Rawson, K. A., Marsh, E. J., Nathan, M. J., & Willingham, D. T. (2013). Improving students' learning with effective learning techniques: Promising directions from cognitive and educational psychology. Psychological Science in the Public Interest, 14(1), 4-58."
+  - "Roediger, H. L., & Karpicke, J. D. (2006). Test-enhanced learning: Taking memory tests improves long-term retention. Psychological Science, 17(3), 249-255."
+escalation_note: null
+reviewed_on: null

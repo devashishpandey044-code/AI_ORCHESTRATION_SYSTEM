@@ -108,3 +108,16 @@ and little analysis per user. Support contacts live in one file with a verified-
 region, and a test asserts the India entry includes Tele-MANAS and 112. Known gap: other
 free-text fields (goal titles and descriptions) are not checked yet; the daily check-in in
 Week 5 must call the same function.
+
+## 019 - The methodology library is curated data with a strict schema, not model output
+Methods live as one YAML file per method and are validated on load: strong or moderate evidence
+requires a source, methods for low_energy or burnout_risk require an escalation note, steps and
+contraindications are mandatory, unknown fields are rejected and the slug must match the file
+name. A broken file fails loudly with its file name. The model will later be allowed to pick from
+this library but never to write a method, so every suggestion can be traced to a reviewed source.
+
+## 020 - Honest evidence levels and human review dates
+Each method states strong, moderate, limited or practitioner evidence with a note on its limits,
+because much self-improvement advice has weak research behind it and users should not be told
+otherwise. `reviewed_on` records when a person checked the citations, and the coverage report lists
+methods nobody has reviewed yet.

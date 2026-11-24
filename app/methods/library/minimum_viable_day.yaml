@@ -1,0 +1,24 @@
+slug: minimum_viable_day
+title: Minimum viable day
+summary: On overloaded days, shrink the plan to a few essentials and a recovery block, and drop the rest on purpose.
+targets: [overload, burnout_risk, unrealistic_planning]
+target_behavior: Complete a small set of essential items instead of failing a full plan.
+difficulty: easy
+duration_minutes: 10
+schedule_kind: daily_block
+steps:
+  - Look at today's plan and choose one to three items that really matter, including any deadline.
+  - Decide in advance what is postponed or dropped and move those items to specific later days.
+  - Keep sleep, meals and one recovery block in the day.
+  - At the end of the day, note what was done and how you felt, without judging it.
+  - Return to the normal plan only after a couple of days when the load feels manageable.
+ideal_context: Days after a bad night, during illness recovery, family events, or when too many tasks pile up.
+contraindications:
+  - If every day becomes a minimum day, the overall load and goals need to be reviewed.
+  - It should not be used to avoid a hard deadline, so essential items must stay in.
+measurement: Number of essential items completed, and how many days in a row the minimum plan was needed.
+evidence_level: practitioner
+evidence_note: A practical overload-management approach based on scaling plans down. It has not been tested on its own in research.
+sources: []
+escalation_note: If you need a minimum day on most days for more than a couple of weeks, or you feel hopeless or unable to cope, please consider talking to a counsellor, a doctor or someone you trust.
+reviewed_on: null
