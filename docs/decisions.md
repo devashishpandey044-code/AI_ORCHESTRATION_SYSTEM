@@ -42,3 +42,10 @@ instead of relying only on ON DELETE CASCADE. Tests run on SQLite, which does no
 foreign keys by default, so a cascade-only implementation passed in Postgres but left orphaned
 rows in the test database. Explicit deletes behave the same everywhere. The export endpoint
 returns the user's own data only and never includes the password hash.
+
+## 010 - LLM access behind a provider interface with validated structured output
+All model calls go through `LLMProvider` (fake and Anthropic adapters). `complete_structured`
+asks for JSON that matches a Pydantic schema, validates it, and retries once with the validation
+error. Nothing the model returns is used until it passes validation, which keeps the LLM in the
+"proposes" role. The fake provider makes every test free and deterministic, and the provider is
+chosen by environment variable so switching vendors needs no code change in features.
