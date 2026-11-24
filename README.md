@@ -66,3 +66,30 @@ to a model or saved. `python -m app.evals.safety` reports recall on risk stateme
 positives on everyday phrases; CI runs it. This is a baseline, not a clinical tool: it misses
 indirect wording (tracked in `app/evals/safety_cases.py`), and the message and contact numbers
 must be reviewed by a qualified person and re-verified before real users.
+
+## Week 2 endpoints
+
+| Method | Path | Purpose |
+|---|---|---|
+| POST | /onboarding/propose | safety check, then the model proposes a Life Model from the user's text (saves nothing) |
+| POST | /onboarding/confirm | save what the user approved as a new version (no model involved) |
+| GET | /life-model | current Life Model |
+| PUT | /life-model | user edit, saved as a new version (unchanged edits create nothing) |
+| GET | /life-model/versions | version history |
+| GET | /life-model/versions/{n} | one version |
+| POST | /life-model/versions/{n}/restore | copy an old version into a new one |
+| GET | /auth/me/export | now includes Life Model versions |
+
+## Running with a real model
+
+Default is a free fake provider. To use a real one, set these in `.env` (never commit it) or in
+Codespaces secrets: `LLM_PROVIDER=anthropic`, `LLM_MODEL=<model id>`, `ANTHROPIC_API_KEY=<key>`.
+
+## Quality checks
+
+```bash
+pytest -q
+ruff check .
+python -m app.evals.grounding   # invented goals are caught
+python -m app.evals.safety      # crisis check recall and false positives
+```
