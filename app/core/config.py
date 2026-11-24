@@ -15,6 +15,10 @@ class Settings(BaseSettings):
     jwt_algorithm: str = "HS256"
     access_token_expire_minutes: int = 60
     log_level: str = "INFO"
+    llm_provider: str = "fake"  # fake | anthropic
+    llm_model: str = "claude-haiku-5-5"
+    anthropic_api_key: str | None = None
+    llm_timeout_seconds: float = 30.0
 
     def validate_for_runtime(self) -> None:
         if self.env == "prod" and self.secret_key == _DEV_SECRET:
