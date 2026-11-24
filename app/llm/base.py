@@ -13,6 +13,21 @@ class LLMProviderError(LLMError):
 class LLMValidationError(LLMError):
     """The model answered, but never in the shape we asked for."""
 
+    def __init__(
+        self,
+        message: str,
+        *,
+        attempts: int = 0,
+        input_tokens: int = 0,
+        output_tokens: int = 0,
+        model: str = "",
+    ) -> None:
+        super().__init__(message)
+        self.attempts = attempts
+        self.input_tokens = input_tokens
+        self.output_tokens = output_tokens
+        self.model = model
+
 
 @dataclass(frozen=True)
 class LLMResult:

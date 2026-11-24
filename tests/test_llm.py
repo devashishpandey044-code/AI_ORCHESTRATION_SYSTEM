@@ -110,3 +110,12 @@ def test_anthropic_network_error_raises():
 
     with pytest.raises(LLMProviderError):
         _anthropic(handler).complete(system="s", user="u")
+
+
+def test_validation_error_carries_usage():
+    provider = FakeProvider(default="nope")
+    with pytest.raises(LLMValidationError) as info:
+        _run(provider, max_attempts=2)
+    assert info.value.attempts == 2
+    assert info.value.input_tokens > 0
+    assert info.value.model == "fake-1"
