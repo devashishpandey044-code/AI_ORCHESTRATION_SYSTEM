@@ -90,3 +90,21 @@ caught and how many genuine items were wrongly downgraded; CI fails if either is
 Three known weaknesses are recorded as cases outside the gate and pinned by a test: a quote that
 exists inside an injected instruction, a real quote that does not support the item, and a
 paraphrased quote that is downgraded. The user's confirmation step remains the final control.
+
+## 017 - Safety check runs first, deterministically, before any model call
+`/onboarding/propose` checks the text for self-harm risk before length rules, rate limits or any
+LLM call. A trigger returns a fixed message and support contacts and does nothing else: no model
+call, no `llm_calls` row, no saved data, and it does not use up the daily limit. The check was
+moved ahead of the 20-character minimum after noticing the minimum would have rejected the
+shortest, most direct messages before they were ever checked. Rules are simple regexes (English,
+Hindi, romanised Hindi) because they are fast, free, predictable and testable. They are a floor:
+indirect statements are missed, tracked as known gaps, and there is no "continue anyway" bypass
+yet.
+
+## 018 - Safety events are anonymous, and contacts are data
+`safety_events` stores the surface and rule ids that fired, with no user id and no text, so the
+fact that someone wrote something sensitive is not tied to an account. Trade-off: no follow-up
+and little analysis per user. Support contacts live in one file with a verified-on date per
+region, and a test asserts the India entry includes Tele-MANAS and 112. Known gap: other
+free-text fields (goal titles and descriptions) are not checked yet; the daily check-in in
+Week 5 must call the same function.

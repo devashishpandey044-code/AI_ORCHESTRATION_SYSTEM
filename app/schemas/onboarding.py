@@ -1,17 +1,21 @@
 from pydantic import BaseModel, Field
 
 from app.schemas.life_model import LifeModelData
+from app.schemas.safety import SafetyResponse
 
 
 class OnboardingRequest(BaseModel):
-    text: str = Field(min_length=20, max_length=4000)
+    # min_length is 1 on purpose: the safety check must see even very short messages.
+    # The real minimum is enforced in the route AFTER the safety check.
+    text: str = Field(min_length=1, max_length=4000)
 
 
 class OnboardingProposal(BaseModel):
-    """A proposal only. Nothing is saved until the user confirms it."""
+    """Either a proposal, or a safety response. Never both. Nothing is saved either way."""
 
-    proposal: LifeModelData
-    notes: list[str]
+    proposal: LifeModelData | None = None
+    notes: list[str] = Field(default_factory=list)
+    safety: SafetyResponse | None = None
 
 
 class OnboardingConfirm(BaseModel):

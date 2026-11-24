@@ -176,3 +176,15 @@ class LLMCall(Base):
     success: Mapped[bool] = mapped_column(Boolean)
     error: Mapped[str | None] = mapped_column(String(500), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
+class SafetyEvent(Base):
+    """Anonymous record that the safety check fired. Deliberately NO user id and NO text."""
+
+    __tablename__ = "safety_events"
+
+    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    surface: Mapped[str] = mapped_column(String(32))
+    category: Mapped[str] = mapped_column(String(32))
+    rule_ids: Mapped[list[str]] = mapped_column(JSON, default=list)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
