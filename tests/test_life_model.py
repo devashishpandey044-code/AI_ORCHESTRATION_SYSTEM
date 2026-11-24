@@ -184,3 +184,12 @@ def test_delete_account_removes_life_model_and_llm_calls(client, db, engine, aut
     assert _count(engine, "llm_calls") == 1
     remaining = db.scalars(select(LifeModelVersion)).all()
     assert [r.user_id for r in remaining] == [b]
+
+
+def test_version_race_raises_conflict(client, db, auth, monkeypatch):
+    uid = _user_id(client, auth)
+    lm.save_new_version(db, uid, LifeModelData(), LifeModelSource.ONBOARDING)
+    # Simulate a stale read: another save already took version 1 before we computed ours.
+    monkeypatch.setattr(db, "scalar", lambda *args, **kwargs: 0)
+    with pytest.raises(lm.VersionConflictError):
+        lm.save_new_version(db, uid, LifeModelData(), LifeModelSource.USER_EDIT)

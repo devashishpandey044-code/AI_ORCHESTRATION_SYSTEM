@@ -46,3 +46,14 @@ ruff check .
 | GET | /health, /health/ready | liveness / readiness |
 
 Design notes live in `docs/decisions.md`.
+
+## AI quality checks
+
+```bash
+python -m app.evals.grounding
+```
+
+Runs golden cases through the onboarding grounding check (a "stated" item must quote the
+user's own words) and reports the catch rate for invented items and the false-downgrade rate
+for genuine ones. It also lists known gaps, which are tracked in code but not in the gate.
+CI runs it on every push.

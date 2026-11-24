@@ -40,3 +40,15 @@ class LifeModelVersionOut(BaseModel):
     source: LifeModelSource
     data: LifeModelData
     created_at: datetime
+
+
+class LifeModelVersionSummary(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    version: int
+    source: LifeModelSource
+    created_at: datetime
+
+
+class LifeModelUpdate(BaseModel):
+    data: LifeModelData

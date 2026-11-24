@@ -76,3 +76,17 @@ The user's text is wrapped in delimiters, copies of the delimiters are stripped 
 system prompt says the text is data. Each user is limited to a fixed number of onboarding calls
 per rolling 24 hours (counted from `llm_calls`, including failures), and a failed call returns a
 generic error that never echoes the user's text.
+
+## 015 - Life Model edits and restores never rewrite history
+`PUT /life-model` saves the user's edited copy as a new version (source: user_edit), with no
+model involved. An edit that changes nothing creates no version. Restoring an old version copies
+it into a new one, so every state stays retrievable. Two saves racing for the same version
+number are stopped by the unique (user_id, version) constraint and returned as a 409 instead of
+a 500. Version numbers in URLs are bounded so a huge number cannot overflow a database integer.
+
+## 016 - Golden eval for the grounding check, with known gaps tracked in code
+`python -m app.evals.grounding` runs labelled cases and reports how many invented items were
+caught and how many genuine items were wrongly downgraded; CI fails if either is not perfect.
+Three known weaknesses are recorded as cases outside the gate and pinned by a test: a quote that
+exists inside an injected instruction, a real quote that does not support the item, and a
+paraphrased quote that is downgraded. The user's confirmation step remains the final control.
