@@ -18,8 +18,12 @@ DESCRIPTIONS: dict[RoadblockType, str] = {
     RoadblockType.AVOIDANCE: "Putting off a task that feels hard, boring or uncomfortable.",
     RoadblockType.OVERLOAD: "More commitments or tasks than the available time and energy.",
     RoadblockType.UNCLEAR_NEXT_STEP: "Not knowing what to do next, so nothing gets started.",
-    RoadblockType.POOR_ENVIRONMENT: "The place or setup makes focused work harder than it should be.",
-    RoadblockType.UNREALISTIC_PLANNING: "Plans that regularly assume more time or energy than exist.",
+    RoadblockType.POOR_ENVIRONMENT: (
+        "The place or setup makes focused work harder than it should be."
+    ),
+    RoadblockType.UNREALISTIC_PLANNING: (
+        "Plans that regularly assume more time or energy than exist."
+    ),
     RoadblockType.LOW_ENERGY: "Tiredness or low energy that limits what a day can hold.",
     RoadblockType.BURNOUT_RISK: "Sustained exhaustion or strain that rest alone has not fixed.",
     RoadblockType.INEFFECTIVE_LEARNING: "Study time that is not turning into learning or recall.",

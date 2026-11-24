@@ -93,3 +93,16 @@ ruff check .
 python -m app.evals.grounding   # invented goals are caught
 python -m app.evals.safety      # crisis check recall and false positives
 ```
+
+## Method retrieval
+
+```bash
+python -m app.retrieval.demo --roadblocks distraction --text "my phone keeps buzzing"
+python -m app.retrieval.index        # embed the library into Postgres (pgvector)
+python -m app.evals.retrieval        # golden retrieval cases
+```
+
+Retrieval filters methods by roadblock, then orders by how many roadblocks match and text
+similarity. The embedder is a local word-based hashing embedder (lexical, not semantic) behind
+an interface so a real embedding model can replace it. Postgres tests run when
+`TEST_POSTGRES_URL` points at a database whose name ends in `_test`.
