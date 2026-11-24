@@ -1,0 +1,24 @@
+slug: protected_focus_block
+title: Protected focus block
+summary: Work on one chosen task for a fixed block of time with a defined finish, then take a real break.
+targets: [distraction, avoidance]
+target_behavior: Complete a block of focused work on one task without switching.
+difficulty: medium
+duration_minutes: 45
+schedule_kind: daily_block
+steps:
+  - Choose one task and write what done looks like for this block.
+  - Set a block length you can realistically finish, usually between 25 and 50 minutes.
+  - Remove the obvious interruptions before starting, such as closing unrelated tabs.
+  - Work on that one task until the block ends and write down stray ideas instead of acting on them.
+  - Take a break away from screens and record whether the block was completed.
+ideal_context: Days with at least one stretch of uninterrupted time, and tasks that need concentration.
+contraindications:
+  - Long blocks can backfire when energy is low, so shorten the block instead of skipping it.
+  - Not suited to tasks that need frequent communication with other people.
+measurement: Blocks completed per week and a self-rated ease score from one to five after each block.
+evidence_level: practitioner
+evidence_note: Widely used time-boxing practice. No strong research supports a specific block length, so the lengths here are starting points to adjust from the user's own results.
+sources: []
+escalation_note: null
+reviewed_on: null

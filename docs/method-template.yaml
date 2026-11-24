@@ -1,0 +1,21 @@
+slug: replace_with_file_name_without_extension
+title: Short human title
+summary: One or two sentences, at least 20 characters, no colon followed by a space.
+targets: [distraction]
+target_behavior: What the person will actually do differently.
+difficulty: easy
+duration_minutes: 10
+schedule_kind: daily_block
+steps:
+  - Step one, concrete and doable.
+  - Step two.
+  - Step three.
+ideal_context: When this works best.
+contraindications:
+  - When it does not work or could backfire.
+measurement: How the user will know if it worked.
+evidence_level: practitioner
+evidence_note: What the evidence is, honestly, including its limits.
+sources: []
+escalation_note: null
+reviewed_on: null

@@ -1,0 +1,25 @@
+slug: capacity_planning_buffer
+title: Plan from past data with a buffer
+summary: Estimate task time from how long similar tasks actually took and leave slack, because plans are usually too optimistic.
+targets: [unrealistic_planning, overload]
+target_behavior: Build weekly plans that fit the hours you really have.
+difficulty: medium
+duration_minutes: 15
+schedule_kind: weekly_block
+steps:
+  - Pick the tasks for the coming week and write the time you expect each one to take.
+  - For each task, check how long a similar task took last time and use that number if it is larger.
+  - Add buffer time between tasks and leave some parts of each day unscheduled.
+  - Add up the hours and compare them with the hours you realistically have after classes and obligations.
+  - Remove or move tasks until the plan fits, then at week end compare your estimates with what happened.
+ideal_context: Weeks with several deadlines, and people who often end the day with undone tasks.
+contraindications:
+  - It needs some history of past tasks, so estimates will be rough in the first weeks.
+  - Too much buffer can lead to drifting, so keep the buffer inside fixed time windows.
+measurement: Ratio of actual time to estimated time per task, and the share of planned tasks completed each week.
+evidence_level: moderate
+evidence_note: The planning fallacy, a tendency to underestimate how long tasks take, is well documented. Using past completion times as a reference is a commonly recommended correction.
+sources:
+  - "Buehler, R., Griffin, D., & Ross, M. (1994). Exploring the planning fallacy: Why people underestimate their task completion times. Journal of Personality and Social Psychology, 67(3), 366-381."
+escalation_note: null
+reviewed_on: null

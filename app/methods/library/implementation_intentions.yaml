@@ -1,0 +1,26 @@
+slug: implementation_intentions
+title: If-then planning
+summary: Decide in advance exactly when and where you will start a task, written as an if-then sentence.
+targets: [avoidance, distraction, unclear_next_step]
+target_behavior: Start a specific task at a specific time and place without deciding in the moment.
+difficulty: easy
+duration_minutes: 5
+schedule_kind: cue_based
+steps:
+  - Pick one task you keep putting off and define the very first action in concrete terms.
+  - Choose a cue that will certainly happen, such as a time, a place, or finishing a meal.
+  - Write one sentence in the form if (cue) then I will (action), and say it out loud once.
+  - Put the cue in your schedule so the plan is visible at the moment it should happen.
+  - In the evening, note whether the plan ran. If it failed twice, shrink the action or change the cue.
+ideal_context: Tasks that are clear but easy to postpone, and days with predictable routines.
+contraindications:
+  - Does not help if the goal itself is unclear or no longer wanted, so clarify the goal first.
+  - A plan that keeps failing usually means the action is too big or the cue is unreliable, not that you lack willpower.
+measurement: Count the days the planned action started within 15 minutes of the cue (plan_executed).
+evidence_level: strong
+evidence_note: Experiments and a meta-analysis link if-then plans to better goal follow-through. They work best for goals the person is committed to.
+sources:
+  - "Gollwitzer, P. M. (1999). Implementation intentions: Strong effects of simple plans. American Psychologist, 54(7), 493-503."
+  - "Gollwitzer, P. M., & Sheeran, P. (2006). Implementation intentions and goal achievement: A meta-analysis of effects and processes. Advances in Experimental Social Psychology, 38, 69-119."
+escalation_note: null
+reviewed_on: null

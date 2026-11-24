@@ -1,0 +1,25 @@
+slug: deliberate_recovery_breaks
+title: Deliberate recovery breaks
+summary: Plan short breaks and an evening wind-down that actually restore energy, instead of switching to another screen.
+targets: [low_energy, burnout_risk]
+target_behavior: Take planned breaks and a work cut-off so energy recovers during the day.
+difficulty: easy
+duration_minutes: 10
+schedule_kind: daily_block
+steps:
+  - Place a break after every long work block and write it into the schedule so it is protected.
+  - Use the break for something different from the work, such as a walk, stretching, water or a snack.
+  - Avoid filling the break with social media or news if those leave you more tired.
+  - Set an evening cut-off time after which you stop work and do something that relaxes you.
+  - Rate your energy from one to five at the end of the day to see what helps.
+ideal_context: Long study or work days, exam periods, and periods of heavy workload.
+contraindications:
+  - Breaks and rest are not a treatment for persistent exhaustion or low mood.
+  - If rest never seems to help, the workload itself may need to change.
+measurement: Self-rated energy from one to five each evening, and the number of planned breaks taken.
+evidence_level: moderate
+evidence_note: Research on recovery from work links detaching from work and relaxing activities with better wellbeing and next-day energy. Most studies are observational or diary-based.
+sources:
+  - "Sonnentag, S., & Fritz, C. (2007). The Recovery Experience Questionnaire: Development and validation of a measure for assessing recuperation and unwinding from work. Journal of Occupational Health Psychology, 12(3), 204-221."
+escalation_note: If you feel exhausted for weeks, or your sleep, appetite or mood are badly affected, please talk to a doctor or counsellor. This method is not a treatment.
+reviewed_on: null
