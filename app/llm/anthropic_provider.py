@@ -45,7 +45,9 @@ class AnthropicProvider:
 
         body = response.json()
         text = "".join(
-            block.get("text", "") for block in body.get("content", []) if block.get("type") == "text"
+            block.get("text", "")
+            for block in body.get("content", [])
+            if block.get("type") == "text"
         )
         usage = body.get("usage", {})
         return LLMResult(

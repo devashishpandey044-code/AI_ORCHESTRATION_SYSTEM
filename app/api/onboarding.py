@@ -42,6 +42,11 @@ def confirm(payload: OnboardingConfirm, user: CurrentUser, db: DbSession) -> Lif
     """Save what the user approved as a new Life Model version. The model is not involved."""
     if payload.data == LifeModelData():
         raise HTTPException(status_code=422, detail="Add at least one detail before saving.")
-    return life_model_service.save_new_version(
-        db, user.id, payload.data, LifeModelSource.ONBOARDING
-    )
+    try:
+        return life_model_service.save_new_version(
+            db, user.id, payload.data, LifeModelSource.ONBOARDING
+        )
+    except life_model_service.VersionConflictError:
+        raise HTTPException(
+            status_code=409, detail="Your life model changed elsewhere. Reload it and try again."
+        ) from None
