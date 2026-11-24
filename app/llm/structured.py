@@ -86,4 +86,10 @@ def complete_structured[T: BaseModel](
             prompt_version=prompt_version,
         )
 
-    raise LLMValidationError(f"No valid output after {max_attempts} attempts: {last_error}")
+    raise LLMValidationError(
+        f"No valid output after {max_attempts} attempts: {last_error}",
+        attempts=max_attempts,
+        input_tokens=input_tokens,
+        output_tokens=output_tokens,
+        model=model,
+    )

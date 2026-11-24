@@ -62,3 +62,17 @@ LifeModelData rejects unknown fields so a model cannot slip in data we do not ex
 error, but never prompt or response text, because those contain personal life details. A test
 asserts the table has no text columns. Account export and deletion were extended to cover the
 new tables, and a comment in the delete route reminds future changes to do the same.
+
+## 013 - Propose, verify, confirm: the model never writes the Life Model
+`/onboarding/propose` asks the model for a structured proposal but saves nothing. A deterministic
+check then requires every "stated" or "belief" item to quote the user's own words; anything that
+cannot be found in the text is downgraded to "inferred" and reported. `/onboarding/confirm`
+saves exactly what the user sends back, with no model involved, so the user can edit first. This
+keeps the LLM in the "proposes" role. Known gap: `current_situation` has no provenance, so the
+user's confirmation is its only check.
+
+## 014 - Prompt-injection and cost controls on the onboarding call
+The user's text is wrapped in delimiters, copies of the delimiters are stripped from it, and the
+system prompt says the text is data. Each user is limited to a fixed number of onboarding calls
+per rolling 24 hours (counted from `llm_calls`, including failures), and a failed call returns a
+generic error that never echoes the user's text.
