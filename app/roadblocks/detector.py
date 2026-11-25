@@ -157,7 +157,9 @@ def detect_roadblocks(
             notes.append("The text analysis was unavailable, so only your activity data was used.")
         else:
             model_hits, dropped = verify_proposal(result.data, clean)
-            notes.extend(f"Ignored a suggestion that is not a known roadblock: {n}" for n in dropped)
+            notes.extend(
+                f"Ignored a suggestion that is not a known roadblock: {n}" for n in dropped
+            )
 
     roadblocks = merge(rule_hits, model_hits)
     care_note = CARE_NOTE if any(d.sensitive for d in roadblocks) else None
