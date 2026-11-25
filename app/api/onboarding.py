@@ -45,7 +45,10 @@ def propose(
     if len(payload.text.strip()) < MIN_TEXT_LENGTH:
         raise HTTPException(
             status_code=422,
-            detail=f"Please write at least {MIN_TEXT_LENGTH} characters so there is enough to work with.",
+            detail=(
+                f"Please write at least {MIN_TEXT_LENGTH} characters "
+                "so there is enough to work with."
+            ),
         )
     if count_recent_calls(db, user.id) >= get_settings().onboarding_daily_limit:
         raise HTTPException(status_code=429, detail="Daily onboarding limit reached. Try tomorrow.")

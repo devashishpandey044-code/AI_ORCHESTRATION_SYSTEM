@@ -121,3 +121,45 @@ Each method states strong, moderate, limited or practitioner evidence with a not
 because much self-improvement advice has weak research behind it and users should not be told
 otherwise. `reviewed_on` records when a person checked the citations, and the coverage report lists
 methods nobody has reviewed yet.
+
+## 021 - Retrieval filters by roadblock first, then ranks
+Candidates are the methods whose targets include a detected roadblock, found with a plain code
+filter that cannot be fooled by wording. Ranking is the number of matched roadblocks, then text
+similarity, then stronger evidence, then slug, so results are explainable and deterministic. The
+model never chooses from outside the library, and only a few methods are returned because too
+many options make people do nothing.
+
+## 022 - A local hashing embedder behind an interface, with two stores
+The embedder is free, deterministic and offline, which keeps tests fast and avoids sending user
+text to a third party for now. It matches words, not meaning, and the eval shows the cost: one
+planning case ranks second. Storage has an in-memory backend for tests and a pgvector backend for
+Postgres. The vector table is created by a hand-written migration and excluded from autogenerate,
+because the vector type does not exist on the SQLite used in unit tests. Postgres tests are
+skipped unless TEST_POSTGRES_URL is set, refuse to run against a database not ending in _test,
+and run in CI against a real pgvector container. The column is fixed at 256 dimensions, so a
+real embedding model with another size will need a new migration.
+
+## 023 - Migration history is guarded by tests
+`alembic revision` creates a new file on every run, and running it three times produced three
+migrations that each created the same table, which broke `upgrade head`. Tests now require
+exactly one migration head, a linear history with a single base, and the pgvector table created
+by exactly one migration. The Postgres tests also build a fresh database from the migrations, and
+CI runs them against a real pgvector container, so a broken chain fails before it merges.
+
+## 024 - Roadblocks come from data rules and verified quotes, never from the model alone
+Activity data is judged by plain rules whose thresholds are documented and tested at their
+boundaries, and they are skipped when there is too little data. The model may only propose
+roadblocks from the taxonomy; unknown ids are dropped and reported. A model suggestion counts as
+strong only if its quote really appears in the user's text; otherwise it is a "possible" guess,
+clearly labelled. Rules and words are merged per roadblock, so a roadblock backed by both shows
+both signals. Known gaps: a quote can exist inside an injected instruction, and only 6 of the 9
+roadblocks have a rule, because the other 3 have no data to judge from yet.
+
+## 025 - Sensitive roadblocks carry a fixed care note, and the data path survives model failure
+Energy and burnout results always come with a fixed, code-written note that these are signals
+from the user's own entries and not a diagnosis, with a pointer to a doctor or counsellor.
+The note is not model-written. The crisis check runs first on any text, and a trigger skips
+detection entirely. If the model is down but activity data was sent, the data-based results are
+still returned with a note, because a model outage should not erase information we can compute.
+The activity summary is supplied by the client for now; the server will compute it from stored
+plans and check-ins in Weeks 4 and 5.

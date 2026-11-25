@@ -21,6 +21,7 @@ class Settings(BaseSettings):
     llm_timeout_seconds: float = 30.0
     onboarding_daily_limit: int = 20
     crisis_region: str = "IN"  # IN | US | anything else
+    roadblock_daily_limit: int = 20
 
     def validate_for_runtime(self) -> None:
         if self.env == "prod" and self.secret_key == _DEV_SECRET:
