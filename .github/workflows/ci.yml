@@ -37,3 +37,4 @@ jobs:
       - run: python -m app.evals.grounding
       - run: python -m app.evals.safety
       - run: python -m app.evals.retrieval
+      - run: python -m app.evals.roadblocks

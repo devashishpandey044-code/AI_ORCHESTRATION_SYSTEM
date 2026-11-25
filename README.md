@@ -106,3 +106,14 @@ Retrieval filters methods by roadblock, then orders by how many roadblocks match
 similarity. The embedder is a local word-based hashing embedder (lexical, not semantic) behind
 an interface so a real embedding model can replace it. Postgres tests run when
 `TEST_POSTGRES_URL` points at a database whose name ends in `_test`.
+
+## Roadblock detection
+
+`POST /roadblocks/detect` takes the user's words and/or a summary of recent activity and returns
+the roadblocks it found, each with its signals. Activity data is checked by plain rules with
+documented thresholds; the model reads the words but must quote them, and code checks the quote
+really is in the text. `python -m app.evals.roadblocks` runs golden cases for both. This is a
+signal, not a diagnosis: energy-related results always carry a care note.
+
+Local manual testing: `TOKEN=$(bash scripts/token.sh)`, then post a file from `scripts/samples/`.
+The token script uses a throwaway local dev account; never put real credentials in the repo.
