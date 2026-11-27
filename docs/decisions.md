@@ -231,3 +231,25 @@ The scheduler builds plans; a different module re-checks them from the finished 
 shared placement code). So a bug in the scheduler, a plan loaded from storage, or a hand-edited plan
 is still caught before the user sees it. A random sweep requires the scheduler to pass its own
 referee on 500 generated days. Why this matters: ___ (rewrite in your own words).
+
+## 035 - A bad day gets a smaller plan, not a failed one
+When the full plan cannot fit a must-do task, or the user asks for a lighter day, the system switches
+to a minimum viable day: at most two tasks, each cut to a 30-minute first step, half the focus
+limit. Every dropped or shrunk task is listed with a reason. Why this matters: ___ (rewrite in your
+own words, and link it to the minimum_viable_day method in the library).
+
+## 036 - Fallback output is validated against what it actually planned
+A minimum viable day changes the tasks and the focus limit, so the plan carries the reduced tasks and
+context it was built from. The validator checks the plan against those, and the fallback calls it
+before returning. Why this matters: ___ (rewrite in your own words).
+
+## 035 - A bad day gets a smaller plan, not a failed one
+When the full plan cannot fit a must-do task, or the user asks for a lighter day, the system switches
+to a minimum viable day: at most two tasks, each cut to a 30-minute first step, half the focus
+limit. Every dropped or shrunk task is listed with a reason. Why this matters: ___ (rewrite in your
+own words, and link it to the minimum_viable_day method in the library).
+
+## 036 - Fallback output is validated against what it actually planned
+A minimum viable day changes the tasks and the focus limit, so the plan carries the reduced tasks and
+context it was built from. The validator checks the plan against those, and the fallback calls it
+before returning. Why this matters: ___ (rewrite in your own words).
