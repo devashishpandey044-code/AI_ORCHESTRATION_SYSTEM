@@ -22,6 +22,7 @@ from sqlalchemy import (
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
+from app.db.checkin_models import CheckinOutcomeRow, CheckinRow
 from app.db.models import Base, Goal, User
 from app.db.plan_models import Plan, PlanBlock, PlanTask
 from app.planning.fallback import PlanMode, plan_day
@@ -93,7 +94,8 @@ def make_row(session, model, **given):
 @pytest.fixture
 def session():
     engine = create_engine("sqlite://")
-    tables = [m.__table__ for m in (User, Goal, Plan, PlanTask, PlanBlock)]
+    models = (User, Goal, Plan, PlanTask, PlanBlock, CheckinRow, CheckinOutcomeRow)
+    tables = [m.__table__ for m in models]
     Base.metadata.create_all(engine, tables=tables)
     with Session(engine) as db:
         yield db

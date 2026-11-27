@@ -10,8 +10,10 @@ from datetime import date
 from typing import Any
 
 from sqlalchemy import delete, select
+from sqlalchemy import delete as sa_delete
 from sqlalchemy.orm import Session
 
+from app.db.checkin_models import CheckinOutcomeRow, CheckinRow
 from app.db.models import Goal
 from app.db.plan_models import Plan, PlanBlock, PlanTask
 from app.planning.fallback import DayPlan
@@ -48,6 +50,14 @@ def _require_own_goals(session: Session, user_id: Any, task_rows: tuple[dict, ..
 
 
 def _delete_plans(session: Session, plan_ids: list[Any]) -> int:
+    _ck_ids = list(
+        session.scalars(select(CheckinRow.id).where(CheckinRow.plan_id.in_(plan_ids)))
+    )
+    if _ck_ids:
+        session.execute(
+            sa_delete(CheckinOutcomeRow).where(CheckinOutcomeRow.checkin_id.in_(_ck_ids))
+        )
+        session.execute(sa_delete(CheckinRow).where(CheckinRow.id.in_(_ck_ids)))
     if not plan_ids:
         return 0
     session.execute(delete(PlanTask).where(PlanTask.plan_id.in_(plan_ids)))
