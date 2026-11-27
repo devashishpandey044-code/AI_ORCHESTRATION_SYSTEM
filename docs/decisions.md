@@ -444,3 +444,23 @@ one-gigabyte database bound the worst case to a full demo, not a bill or a leak.
 
 **Trade-off:** Cold starts of about a minute on both hosts. No per-IP rate limit yet, so a hostile
 visitor can fill the cap. Fixing that needs a shared store or a proxy, which is out of scope here.
+
+## 056 - A small web page served by the API itself
+
+**Context:** A reviewer should be able to try the product from the public URL without reading API
+docs or installing anything.
+
+**Decision:** Serve one static page (HTML, one stylesheet, one script, no framework, no build step)
+from the same FastAPI app at `/`, with assets under `/ui`. The script builds the page with
+`textContent` only, never `innerHTML`. The page sends a strict content security policy (own
+script and styles only, no inline code, connections to its own server only). The allowed values
+for task statuses, block reasons and roadblock types are read from `/openapi.json` at load time.
+
+**Why:** Same origin means no CORS setup and no second host to deploy. Reading the allowed values
+from the API means the page cannot drift out of step with the rules. Tests fail the build if the
+script ever uses `innerHTML` or similar, or contacts another host.
+
+**Trade-off:** Plain JavaScript means more hand-written view code than a framework would need, and
+the page is checked by tests of its headers and source plus a manual walk-through, not by browser
+tests in CI. The page covers plan, check-in, review, methods and account; goals and the life model
+are still API-only.

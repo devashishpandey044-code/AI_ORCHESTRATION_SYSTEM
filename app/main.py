@@ -3,6 +3,7 @@ import time
 import uuid
 
 from fastapi import FastAPI, Request
+from fastapi.staticfiles import StaticFiles
 
 from app.api import (
     account,
@@ -18,6 +19,7 @@ from app.api import (
     plans,
     reviews,
     roadblocks,
+    ui,
     usage,
 )
 from app.core.config import get_settings
@@ -64,6 +66,8 @@ def create_app() -> FastAPI:
     app.include_router(experiment_ratings.router)
     app.include_router(usage.router)
     app.include_router(constraints.router)
+    app.include_router(ui.router)
+    app.mount("/ui", StaticFiles(directory=ui.UI_DIR), name="ui")
     return app
 
 
