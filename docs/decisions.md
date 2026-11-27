@@ -225,3 +225,9 @@ Why I chose this: ___ (rewrite in your own words).
 - Placement is earliest-fit, so mornings fill first even if the user focuses best in the evening.
 - No task dependencies or "must finish by" times yet.
 - A break is only added when there is room for a full one after the piece.
+
+## 034 - A separate validator checks every plan
+The scheduler builds plans; a different module re-checks them from the finished blocks only (no
+shared placement code). So a bug in the scheduler, a plan loaded from storage, or a hand-edited plan
+is still caught before the user sees it. A random sweep requires the scheduler to pass its own
+referee on 500 generated days. Why this matters: ___ (rewrite in your own words).

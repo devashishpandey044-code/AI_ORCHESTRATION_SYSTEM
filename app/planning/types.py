@@ -7,7 +7,7 @@ lists; the validator (Day 4) checks those lists against the same rules.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import Enum, StrEnum
 
 from app.planning.intervals import Interval
 
@@ -16,7 +16,7 @@ class PlanError(ValueError):
     """Raised when a task, block or day context breaks a basic rule."""
 
 
-class BlockKind(str, Enum):
+class BlockKind(StrEnum):
     FIXED = "fixed"  # classes, work: given by the user, never moved
     SLEEP = "sleep"
     TASK = "task"  # work the scheduler placed
@@ -30,7 +30,7 @@ class Priority(int, Enum):
     COULD = 3
 
 
-class Effort(str, Enum):
+class Effort(StrEnum):
     LIGHT = "light"
     FOCUS = "focus"  # deep work: counts against the daily focus capacity
 
