@@ -417,3 +417,13 @@ experiments. Why this matters: ___ (rewrite in your own words).
 **Why:** It follows the rule that per-user data is scoped to the user, and it answers "is it healthy and what does it cost" with numbers that can be checked by hand. Tests pin the cost to hand calculations, including the price tier above 100,000 input tokens, and break the tier boundary, the rounding, the percentile rank and retry counting on purpose.
 
 **Trade-off:** There is no system-wide view yet, so an operator cannot see total spend across users; that needs an operator role or a command-line report and is left for later. Prices are written in code from news reports, not from Anthropic's own price page, so they must be checked there and updated by hand when they change. Cache pricing is not modelled because cache usage is not stored.
+
+## 054 - The demo runs through the public API, and a test runs it on every commit
+
+**Context:** An interview or a hosted demo needs a believable account with a week of history. Seeding the database directly would be quick, but it would skip the checks the API enforces and would drift from the real product as soon as a table changed.
+
+**Decision:** `python -m app.demo.run` signs in to (or creates) a demo account and builds the story only through the real endpoints: life model, goals, five days of plans and check-ins, then the weekly review, roadblocks from activity data, method suggestions, an experiment and the usage summary. It takes any HTTP client, so tests run the same story against the app in memory on every commit, and `bash scripts/demo.sh` runs it against a real server and Postgres in one command. Running it twice changes nothing: it leaves existing goals alone and reuses a running experiment.
+
+**Why:** If an endpoint, a rule or a response changes in a way that breaks the story, a test fails, so the demo cannot quietly rot. The first end-to-end run found two wrong assumptions of mine (a new account has no life model to update, and suggestions change after an experiment has been tried), which shows the test does its job.
+
+**Trade-off:** The demo credentials are public by design, so the demo account must never hold real data, and a shared hosted database needs the account reset now and then. Roadblocks come from activity data, not from words, because the default model in development is a fake one. The rating suggestion always says "not enough days yet", because the API cannot back-date an experiment. The in-memory test uses SQLite, so the Postgres run is a manual check with `scripts/demo.sh`.
