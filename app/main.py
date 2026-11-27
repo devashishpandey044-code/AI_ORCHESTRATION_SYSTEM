@@ -7,6 +7,7 @@ from fastapi import FastAPI, Request
 from app.api import (
     account,
     auth,
+    checkins,
     constraints,
     goals,
     health,
@@ -14,6 +15,7 @@ from app.api import (
     methods,
     onboarding,
     plans,
+    reviews,
     roadblocks,
 )
 from app.core.config import get_settings
@@ -51,15 +53,12 @@ def create_app() -> FastAPI:
     app.include_router(onboarding.router)
     app.include_router(roadblocks.router)
     app.include_router(methods.router)
-    app.include_router(roadblocks.router)
-    app.include_router(life_model.router)
-    app.include_router(onboarding.router)
-    app.include_router(roadblocks.router)
-    app.include_router(roadblocks.router)
     app.include_router(life_model.router)
     app.include_router(auth.router)
     app.include_router(goals.router)
     app.include_router(plans.router)
+    app.include_router(checkins.router)
+    app.include_router(reviews.router)
     app.include_router(constraints.router)
     return app
 
