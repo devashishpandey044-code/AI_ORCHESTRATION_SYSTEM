@@ -44,7 +44,7 @@ def write_checkin(
         raise HTTPException(status.HTTP_404_NOT_FOUND, "no plan for that day") from error
     except CheckinError as error:
         db.rollback()
-        raise HTTPException(status.HTTP_422_UNPROCESSABLE_ENTITY, str(error)) from error
+        raise HTTPException(422, str(error)) from error
     db.commit()
     report = load_day_report(db, user.id, plan_date)
     if report is None:

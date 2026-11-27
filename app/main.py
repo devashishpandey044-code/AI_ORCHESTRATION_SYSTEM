@@ -9,6 +9,7 @@ from app.api import (
     auth,
     checkins,
     constraints,
+    experiment_ratings,
     goals,
     health,
     life_model,
@@ -59,6 +60,7 @@ def create_app() -> FastAPI:
     app.include_router(plans.router)
     app.include_router(checkins.router)
     app.include_router(reviews.router)
+    app.include_router(experiment_ratings.router)
     app.include_router(constraints.router)
     return app
 
