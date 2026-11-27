@@ -387,3 +387,13 @@ experiments. Why this matters: ___ (rewrite in your own words).
 **Why:** It keeps the rule "the system proposes, code verifies, the user decides", and the numbers can be checked and explained. It also stops a single good day from rating a method.
 
 **Trade-off:** It cannot tell a helpful method from a good week for other reasons, so every message says the suggestion is not proof. Days come from the experiment's stored timestamp, so near midnight a day can be off by one for users far from UTC. That is a known gap.
+
+## 051 - A persona eval scores the whole product on made-up users, with a scripted model
+
+**Context:** The earlier evals each test one part: grounding, safety, retrieval, roadblocks, the pipeline, planning and check-ins. A real user goes through all of them in a row, and a part can pass alone and still fail in the chain.
+
+**Decision:** 34 made-up users (`app/evals/personas_cases.py`) each carry words, optional activity data, a scripted model answer and a planning day. The runner sends them through detection and method suggestion, then plans their day and validates it with the independent validator, then runs five scripted check-in days and compares each adherence percent with a separate whole-number calculation. Five metrics are reported: detection, grounding, safety, plan constraints and check-ins. The gate is that every persona passes, and CI runs it.
+
+**Why:** It is the one number that says the pieces work together, and it runs free and offline because the model is scripted. It reuses `run_case` instead of copying it, so the pipeline eval and the persona eval cannot drift apart. Tests break a label, the validator and the adherence figure on purpose and check that each turns the eval red.
+
+**Trade-off:** The model is scripted, so this checks what the code does with a model answer, not how good a real model's answers are. The personas and their expected labels are written by hand, so they encode my own guesses about users, and five day shapes are reused across all of them. A real-model run on a small set of personas is a later, separate step.
