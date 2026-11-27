@@ -209,3 +209,19 @@ only at the edges. Why this matters: ___ (rewrite in your own words).
 The model may suggest which tasks matter and how long they take, but only code places them on the
 clock. Tasks, blocks and the day's context are validated plain objects, and the same rules are used
 to build a plan and to check one. Why this matters: ___ (rewrite in your own words).
+
+## 032 - A task is placed whole or not at all, and the plan says what it dropped
+The scheduler never silently shrinks, overlaps or hides a task. A task that cannot fit is returned in
+an `unplaced` list with a reason (over the focus limit, or no free time). Long focus work is split
+into pieces with breaks. Why this matters: ___ (rewrite in your own words).
+
+## 033 - Greedy earliest-fit instead of an optimiser
+Tasks are tried by priority and placed at the earliest gap that fits. This is not the best possible
+packing, but it is predictable, explainable to the user, and the same input always gives the same
+plan. A smarter optimiser can replace it later without changing the rules it must satisfy.
+Why I chose this: ___ (rewrite in your own words).
+
+## Known gaps (scheduler)
+- Placement is earliest-fit, so mornings fill first even if the user focuses best in the evening.
+- No task dependencies or "must finish by" times yet.
+- A break is only added when there is room for a full one after the piece.
