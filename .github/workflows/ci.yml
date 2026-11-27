@@ -40,3 +40,4 @@ jobs:
       - run: python -m app.evals.roadblocks
       - run: python -m app.evals.pipeline
       - run: python -m app.evals.planning
+      - run: python -m app.evals.checkins
