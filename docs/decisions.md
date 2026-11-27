@@ -180,3 +180,21 @@ method twice at once. That rule is enforced by a partial unique index in the dat
 by code, so two simultaneous requests cannot both succeed. The method is stored as a slug and not
 as a foreign key because methods live in files; experiments for a removed method still list, with
 no title. Export and account deletion were extended in the same change.
+
+## 028 - The end-to-end eval scripts the model and checks what the code does with its output
+Each golden case scripts what the model says, including wrong things: an invented roadblock, a
+quote that is not in the text, an instruction hidden inside the user's words, a model that is
+down. The cases then assert the final roadblocks, their strength and the suggested methods. This
+tests the verification layers, which are the part we wrote, rather than the model's answers,
+which we do not control. Safety is checked first in every case: a crisis text must stop the chain
+with no model call, no roadblocks and no methods.
+
+## 029 - Invariants are checked on every combination, not just on examples
+Besides golden cases, the eval asks for methods for all 255 combinations of one to four
+roadblocks, with and without a description, and checks the same rules each time: at most two
+suggestions, no duplicates, every method in the library, matched roadblocks only from the
+request, reasons and contraindications present, escalation notes on energy and burnout methods,
+and the care note present exactly when such a method is shown. It also fails if any combination
+gets no suggestion, so removing the last method for a roadblock is caught in CI. Known gap:
+goal titles and descriptions are the remaining free-text fields that are not yet screened by the
+crisis check; check-ins in Week 5 must use the same safety function.
