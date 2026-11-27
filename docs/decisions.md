@@ -275,3 +275,14 @@ rules, so a bug in either layer is caught by the other. Why I want both: ___ (re
 - Account export and delete do not call the plan functions yet (Day 8). Until then, deleting a user
   relies on the foreign key cascade in the database.
 - One plan per user per day; earlier versions of a regenerated plan are not kept.
+
+## 040 - The plan API never calls a model and rejects bad input before planning
+A plan request is validated at the edge (times, ranges, unique keys, overlapping fixed blocks) and
+converted to the planner's own objects inside the request model, so anything the planner would reject
+is an ordinary 422. Planning itself is deterministic code, so no model call, rate limit or crisis check
+is involved. Why this matters: ___ (rewrite in your own words).
+
+## 041 - Another user's plan looks like a plan that does not exist
+Every plan query is scoped to the signed-in user, and a plan or goal that belongs to someone else
+returns 404, not 403, so the API does not reveal which plans exist. Same rule as goals and
+experiments. Why this matters: ___ (rewrite in your own words).

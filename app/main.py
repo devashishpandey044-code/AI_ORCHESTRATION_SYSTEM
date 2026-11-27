@@ -13,6 +13,7 @@ from app.api import (
     life_model,
     methods,
     onboarding,
+    plans,
     roadblocks,
 )
 from app.core.config import get_settings
@@ -58,6 +59,7 @@ def create_app() -> FastAPI:
     app.include_router(life_model.router)
     app.include_router(auth.router)
     app.include_router(goals.router)
+    app.include_router(plans.router)
     app.include_router(constraints.router)
     return app
 
