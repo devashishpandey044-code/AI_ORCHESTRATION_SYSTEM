@@ -259,3 +259,19 @@ Planning is gated like the model-based parts: hand-worked golden days, ten ways 
 that the validator must notice, and a 1000-day random sweep. Tests prove the eval goes red if the
 validator is blinded or the planner loses a task. Why this matters: ___ (rewrite in your own words,
 and say why a check that cannot fail is worthless).
+
+## 038 - Plans are stored as plain rows and re-validated on every load
+The plan-to-rows conversion is ordinary Python with no database in it, so it is tested heavily on
+its own (including a 300-day random sweep and damaged-row tests). Loading a plan rebuilds it and
+runs the validator again, so a plan that was edited or corrupted in storage is rejected instead of
+shown. Why this matters: ___ (rewrite in your own words).
+
+## 039 - The database also enforces the basic rules
+Check constraints reject a block that ends before it starts or leaves the day, one plan per user per
+day is a unique constraint, and every plan query is scoped to the user. The code checks the same
+rules, so a bug in either layer is caught by the other. Why I want both: ___ (rewrite in your own words).
+
+## Known gaps (plan storage)
+- Account export and delete do not call the plan functions yet (Day 8). Until then, deleting a user
+  relies on the foreign key cascade in the database.
+- One plan per user per day; earlier versions of a regenerated plan are not kept.

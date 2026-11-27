@@ -226,3 +226,7 @@ class MethodExperiment(Base):
     rating: Mapped[int | None] = mapped_column(Integer, nullable=True)
     started_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     ended_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+
+
+# Keep last: registers the plan tables on Base.metadata.
+from app.db import plan_models  # noqa: E402, F401
