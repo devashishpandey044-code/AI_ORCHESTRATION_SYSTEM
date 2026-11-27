@@ -204,3 +204,8 @@ Plans are checked and built with plain integer minutes after midnight, as [start
 blocks are not a conflict. There are no time zones, floats or datetimes inside the scheduler, so the
 rules ("no overlap", "inside capacity") are exact and easy to test. Conversion to real dates happens
 only at the edges. Why this matters: ___ (rewrite in your own words).
+
+## 031 - The model never picks times; code does
+The model may suggest which tasks matter and how long they take, but only code places them on the
+clock. Tasks, blocks and the day's context are validated plain objects, and the same rules are used
+to build a plan and to check one. Why this matters: ___ (rewrite in your own words).
