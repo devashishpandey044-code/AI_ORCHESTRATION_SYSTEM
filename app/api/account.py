@@ -4,12 +4,13 @@ from fastapi import APIRouter, Response
 from sqlalchemy import delete, select
 
 from app.api.deps import CurrentUser, DbSession
-from app.db.models import Goal, LifeModelVersion, LLMCall, ScheduleConstraint
+from app.db.models import Goal, LifeModelVersion, LLMCall, MethodExperiment, ScheduleConstraint
 from app.schemas.account import UserExport
 from app.schemas.constraint import ConstraintOut
 from app.schemas.goal import GoalOut
 from app.schemas.life_model import LifeModelVersionOut
 from app.schemas.user import UserOut
+from app.services.methods import experiment_to_out
 
 router = APIRouter(prefix="/auth/me", tags=["account"])
 
@@ -29,12 +30,18 @@ def export_my_data(user: CurrentUser, db: DbSession) -> UserExport:
         .where(LifeModelVersion.user_id == user.id)
         .order_by(LifeModelVersion.version)
     )
+    experiments = db.scalars(
+        select(MethodExperiment)
+        .where(MethodExperiment.user_id == user.id)
+        .order_by(MethodExperiment.started_at, MethodExperiment.id)
+    )
     return UserExport(
         exported_at=datetime.now(UTC),
         user=UserOut.model_validate(user),
         goals=[GoalOut.model_validate(g) for g in goals],
         constraints=[ConstraintOut.model_validate(c) for c in constraints],
         life_model_versions=[LifeModelVersionOut.model_validate(v) for v in versions],
+        method_experiments=[experiment_to_out(e) for e in experiments],
     )
 
 
@@ -45,6 +52,7 @@ def delete_my_account(user: CurrentUser, db: DbSession) -> Response:
     db.execute(delete(Goal).where(Goal.user_id == user.id))
     db.execute(delete(ScheduleConstraint).where(ScheduleConstraint.user_id == user.id))
     db.execute(delete(LifeModelVersion).where(LifeModelVersion.user_id == user.id))
+    db.execute(delete(MethodExperiment).where(MethodExperiment.user_id == user.id))
     db.execute(delete(LLMCall).where(LLMCall.user_id == user.id))
     db.delete(user)
     db.commit()

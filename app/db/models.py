@@ -19,6 +19,7 @@ from sqlalchemy import (
     UniqueConstraint,
     Uuid,
     func,
+    text,
     true,
 )
 from sqlalchemy.orm import Mapped, mapped_column
@@ -188,3 +189,40 @@ class SafetyEvent(Base):
     category: Mapped[str] = mapped_column(String(32))
     rule_ids: Mapped[list[str]] = mapped_column(JSON, default=list)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
+class ExperimentStatus(enum.StrEnum):
+    ACTIVE = "active"
+    COMPLETED = "completed"
+    ABANDONED = "abandoned"
+
+
+class MethodExperiment(Base):
+    """One attempt by a user at one method for one roadblock. Structured fields only."""
+
+    __tablename__ = "method_experiments"
+    __table_args__ = (
+        CheckConstraint("rating IS NULL OR (rating BETWEEN 1 AND 5)", name="ck_experiments_rating"),
+        Index("ix_experiments_user_status", "user_id", "status"),
+        # A user may try a method again later, but never twice at the same time.
+        Index(
+            "uq_experiments_one_active_per_method",
+            "user_id",
+            "method_slug",
+            unique=True,
+            postgresql_where=text("status = 'active'"),
+            sqlite_where=text("status = 'active'"),
+        ),
+    )
+
+    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    user_id: Mapped[uuid.UUID] = mapped_column(Uuid, ForeignKey("users.id", ondelete="CASCADE"))
+    # Not a foreign key: methods live in files, so a slug can outlive its method.
+    method_slug: Mapped[str] = mapped_column(String(60))
+    roadblock: Mapped[str] = mapped_column(String(32))
+    status: Mapped[ExperimentStatus] = mapped_column(
+        _enum(ExperimentStatus), default=ExperimentStatus.ACTIVE
+    )
+    rating: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    started_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    ended_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)

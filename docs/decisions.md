@@ -163,3 +163,20 @@ detection entirely. If the model is down but activity data was sent, the data-ba
 still returned with a note, because a model outage should not erase information we can compute.
 The activity summary is supplied by the client for now; the server will compute it from stored
 plans and check-ins in Weeks 4 and 5.
+
+## 026 - Method selection is rule-based, history-aware and capped
+Suggestions come only from the reviewed library, through the same filter-then-rank retrieval,
+so every suggestion traces to a source and costs nothing to produce. At most two are returned,
+because choice overload makes people do nothing. A user's own history reshapes the list: methods
+they are already trying are excluded, abandoned or poorly rated ones go last (and are only shown
+with an explanation when nothing else fits), and methods they rated highly are marked. The most
+recent finished attempt decides, so a method abandoned once and later loved is not punished.
+
+## 027 - Experiments are structured, capped and race-safe
+An experiment records only the method, roadblock, status and a 1 to 5 rating, with no free text,
+because free text must pass the crisis check and that arrives with check-ins. A user may have at
+most a few active experiments, which protects against over-planning, and may not run the same
+method twice at once. That rule is enforced by a partial unique index in the database, not just
+by code, so two simultaneous requests cannot both succeed. The method is stored as a slug and not
+as a foreign key because methods live in files; experiments for a removed method still list, with
+no title. Export and account deletion were extended in the same change.

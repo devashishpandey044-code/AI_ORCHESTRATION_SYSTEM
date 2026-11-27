@@ -22,6 +22,7 @@ class Settings(BaseSettings):
     onboarding_daily_limit: int = 20
     crisis_region: str = "IN"  # IN | US | anything else
     roadblock_daily_limit: int = 20
+    max_active_experiments: int = 3
 
     def validate_for_runtime(self) -> None:
         if self.env == "prod" and self.secret_key == _DEV_SECRET:
