@@ -367,3 +367,13 @@ experiments. Why this matters: ___ (rewrite in your own words).
 **Why:** One set of rules in code means the API, the storage layer and the tests cannot disagree. Rejecting before writing keeps the stored data clean.
 
 **Trade-off:** A client has to send the date. That is more work for the client, but it avoids wrong-day bugs near midnight.
+
+## 049 - The check-in logic gets its own eval, checked against deliberate breakage
+
+**Context:** The weekly suggestions and the adherence numbers are rules in code. Unit tests cover single cases, but a rule can drift in ways no single test notices.
+
+**Decision:** A fixed eval runs golden days and weeks with known answers, eleven attacks on stored rows that must be rejected, and a seeded random sweep (2000 days, 500 weeks) that checks invariants: adherence stays in 0..100, counted never exceeds planned, reported and unreported tasks partition the plan, storage round trips are exact, and each suggestion appears exactly when its rule says. It is part of the check script and CI. Tests also break a rule on purpose and require the eval to fail.
+
+**Why:** A passing eval only means something if it can fail. Breaking rounding, a threshold, the keep-going rule and row validation each turned the eval red, which shows the gate works.
+
+**Trade-off:** The eval encodes today's thresholds, so changing one means updating a golden case on purpose. Known gaps (no trend over weeks, self-reported reasons, untuned thresholds, no time-of-day link) are listed in the output and are not part of the gate.
