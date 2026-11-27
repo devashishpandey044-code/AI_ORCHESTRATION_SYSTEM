@@ -135,3 +135,16 @@ or rated poorly are demoted. `POST /methods/experiments` records the method the 
 `POST /methods/experiments/{id}/end` records the outcome and a 1 to 5 rating, and `GET /methods`
 lists the whole library. Experiments hold only structured fields, so no free text bypasses the
 safety check.
+
+## End-to-end pipeline checks
+
+```bash
+python -m app.evals.pipeline
+```
+
+Runs the whole chain (words and activity data, then roadblocks, then methods) on golden cases with
+a scripted model, so the checks are about what the code does with whatever the model says. It also
+sweeps every combination of one to four roadblocks and asserts the rules that must always hold:
+at most two suggestions, all from the library, each with reasons and contraindications, energy
+and burnout methods always carrying an escalation note and a care note, and at least one
+suggestion for every combination. CI runs it on every push.
