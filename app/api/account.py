@@ -11,6 +11,7 @@ from app.schemas.goal import GoalOut
 from app.schemas.life_model import LifeModelVersionOut
 from app.schemas.user import UserOut
 from app.services.methods import experiment_to_out
+from app.services.plans import delete_plans_for_user, export_plans_for_user
 
 router = APIRouter(prefix="/auth/me", tags=["account"])
 
@@ -42,6 +43,7 @@ def export_my_data(user: CurrentUser, db: DbSession) -> UserExport:
         constraints=[ConstraintOut.model_validate(c) for c in constraints],
         life_model_versions=[LifeModelVersionOut.model_validate(v) for v in versions],
         method_experiments=[experiment_to_out(e) for e in experiments],
+        plans=export_plans_for_user(db, user.id),
     )
 
 
@@ -49,6 +51,7 @@ def export_my_data(user: CurrentUser, db: DbSession) -> UserExport:
 def delete_my_account(user: CurrentUser, db: DbSession) -> Response:
     # Explicit deletes: they do not rely on the database enforcing ON DELETE CASCADE.
     # Every new table that holds user data must be added here (and to the export above).
+    delete_plans_for_user(db, user.id)
     db.execute(delete(Goal).where(Goal.user_id == user.id))
     db.execute(delete(ScheduleConstraint).where(ScheduleConstraint.user_id == user.id))
     db.execute(delete(LifeModelVersion).where(LifeModelVersion.user_id == user.id))

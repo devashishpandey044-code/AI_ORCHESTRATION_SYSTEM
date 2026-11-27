@@ -286,3 +286,24 @@ is involved. Why this matters: ___ (rewrite in your own words).
 Every plan query is scoped to the signed-in user, and a plan or goal that belongs to someone else
 returns 404, not 403, so the API does not reveal which plans exist. Same rule as goals and
 experiments. Why this matters: ___ (rewrite in your own words).
+
+## 040 - The plan API never calls a model and rejects bad input before planning
+A plan request is validated at the edge (times, ranges, unique keys, overlapping fixed blocks) and
+converted to the planner's own objects inside the request model, so anything the planner would reject
+is an ordinary 422. Planning itself is deterministic code, so no model call, rate limit or crisis check
+is involved. Why this matters: ___ (rewrite in your own words).
+
+## 041 - Another user's plan looks like a plan that does not exist
+Every plan query is scoped to the signed-in user, and a plan or goal that belongs to someone else
+returns 404, not 403, so the API does not reveal which plans exist. Same rule as goals and
+experiments. Why this matters: ___ (rewrite in your own words).
+
+## 042 - A guard test makes account export and delete cover every user table
+
+**Context:** Adding the plans tables meant account export and delete had to change, and nothing forced that. A forgotten table would leave a user's data behind after deletion.
+
+**Decision:** A test lists every table with a foreign key to users and fails unless the account code calls the handler for it (a helper function where one exists, otherwise the model class name).
+
+**Why:** The mistake is silent and privacy-relevant, so the build should fail instead of relying on memory. The first version passed on an import alone, so the test now requires an actual call.
+
+**Trade-off:** A new table needs a one-line entry in the test when it uses a helper. That is intended friction.
