@@ -17,6 +17,7 @@ run python -m app.evals.pipeline
 run python -m app.evals.planning
 run python -m app.evals.personas
 run python -m app.evals.checkins
+run python -m app.evals.report --check
 if [ "$fail" = "0" ]; then
   echo "ALL CHECKS PASSED"
 else
