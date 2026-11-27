@@ -1,5 +1,6 @@
 """Request and response models for the check-in API. No database, no framework state."""
 
+import uuid
 from datetime import date
 from typing import Annotated
 
@@ -7,6 +8,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from app.checkins.compare import DayReport
 from app.checkins.patterns import Roadblock
+from app.checkins.rating import RatingSuggestion
 from app.checkins.types import BlockReason, Checkin, TaskOutcome, TaskStatus
 from app.checkins.weekly import Suggestion, WeeklyReview
 
@@ -145,4 +147,43 @@ def to_weekly_out(start: date, end: date, review: WeeklyReview) -> WeeklyOut:
         unreported_percent=review.patterns.unreported_percent,
         roadblocks=[_roadblock_out(r) for r in review.patterns.roadblocks],
         suggestions=[_suggestion_out(s) for s in review.suggestions],
+    )
+
+
+class RatingSuggestionOut(BaseModel):
+    experiment_id: uuid.UUID
+    during_from: date
+    during_to: date
+    before_from: date
+    before_to: date
+    rating: int | None
+    basis: str
+    during_days: int
+    before_days: int
+    during_adherence: int | None
+    before_adherence: int | None
+    delta: int | None
+    message: str
+
+
+def to_rating_out(
+    experiment_id: uuid.UUID,
+    during: tuple[date, date],
+    before: tuple[date, date],
+    suggestion: RatingSuggestion,
+) -> RatingSuggestionOut:
+    return RatingSuggestionOut(
+        experiment_id=experiment_id,
+        during_from=during[0],
+        during_to=during[1],
+        before_from=before[0],
+        before_to=before[1],
+        rating=suggestion.rating,
+        basis=suggestion.basis.value,
+        during_days=suggestion.during_days,
+        before_days=suggestion.before_days,
+        during_adherence=suggestion.during_adherence,
+        before_adherence=suggestion.before_adherence,
+        delta=suggestion.delta,
+        message=suggestion.message,
     )

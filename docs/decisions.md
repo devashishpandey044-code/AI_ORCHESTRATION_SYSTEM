@@ -377,3 +377,13 @@ experiments. Why this matters: ___ (rewrite in your own words).
 **Why:** A passing eval only means something if it can fail. Breaking rounding, a threshold, the keep-going rule and row validation each turned the eval red, which shows the gate works.
 
 **Trade-off:** The eval encodes today's thresholds, so changing one means updating a golden case on purpose. Known gaps (no trend over weeks, self-reported reasons, untuned thresholds, no time-of-day link) are listed in the output and are not part of the gate.
+
+## 050 - Experiment ratings are suggested from check-in data, never applied automatically
+
+**Context:** A user rates a method they tried, and that rating steers which methods are suggested later. A rating from memory is noisy, but a rating the system sets on its own would take the choice away from the user.
+
+**Decision:** An endpoint compares plan completion in the days of the experiment with the 14 days before it and returns a suggested rating (1 to 5) with a plain explanation. It needs at least 3 usable days on each side and otherwise returns no rating and says why. Cut-offs are 10 and 20 percentage points. The user still ends and rates the experiment through the existing endpoint. A running experiment needs an explicit `through` date, so the server never guesses the day.
+
+**Why:** It keeps the rule "the system proposes, code verifies, the user decides", and the numbers can be checked and explained. It also stops a single good day from rating a method.
+
+**Trade-off:** It cannot tell a helpful method from a good week for other reasons, so every message says the suggestion is not proof. Days come from the experiment's stored timestamp, so near midnight a day can be off by one for users far from UTC. That is a known gap.
