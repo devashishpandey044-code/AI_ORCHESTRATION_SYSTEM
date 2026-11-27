@@ -307,3 +307,13 @@ experiments. Why this matters: ___ (rewrite in your own words).
 **Why:** The mistake is silent and privacy-relevant, so the build should fail instead of relying on memory. The first version passed on an import alone, so the test now requires an actual call.
 
 **Trade-off:** A new table needs a one-line entry in the test when it uses a helper. That is intended friction.
+
+## 043 - Adherence counts planned minutes only; overruns are tracked separately
+
+**Context:** A check-in can report more time on a task than planned. Counting it would let one long task hide a skipped one.
+
+**Decision:** Each task counts at most its planned minutes toward adherence. Extra minutes are recorded as overrun. Tasks the user did not report are listed and count as zero. Percentages use integer maths, rounded half up.
+
+**Why:** Adherence should answer "how much of the plan happened", and overruns are a separate signal (the user underestimates), useful for suggesting longer estimates later.
+
+**Trade-off:** A user who finishes everything and then some shows 100%, not more. That is intended.
