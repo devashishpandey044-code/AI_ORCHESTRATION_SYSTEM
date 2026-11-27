@@ -337,3 +337,13 @@ experiments. Why this matters: ___ (rewrite in your own words).
 **Why:** Every suggestion can be traced to a number, tested, and explained in an interview. A model can later reword the messages, but the code decides which ones apply.
 
 **Trade-off:** The thresholds are my first guesses and will need tuning with real use. The messages are plain, not personal.
+
+## 046 - Check-ins use the same pure-rows pattern as plans
+
+**Context:** Check-ins need storing. Database code is hard to test and easy to get subtly wrong.
+
+**Decision:** A pure layer converts a check-in to plain rows (text, ints, None) and back, re-validating on load and raising a clear error for damaged data. The database layer will only copy rows in and out. Rows load in key order, so results do not depend on database ordering.
+
+**Why:** The risky logic is tested without a database, including 500 random round-trips, and the same pattern already caught a real ordering bug in plan storage.
+
+**Trade-off:** One more layer of small classes. It is worth it because the database code stays too simple to hide bugs.
