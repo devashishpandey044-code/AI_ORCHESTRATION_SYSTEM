@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.4.0 - Daily plan scheduler
+
+- Added whole-minute interval maths and typed plan models (fixed events, sleep, tasks, breaks).
+- Added a deterministic scheduler: priority order, earliest fit, focus tasks split into pieces with breaks, all-or-nothing per task, reasons for anything unplaced.
+- Added an independent plan validator (10 violation codes) that re-checks any plan.
+- Added a minimum-viable-day fallback for low-energy or overloaded days.
+- Added a planning eval with golden, tampered and 1000-day random cases, wired into check.sh and CI.
+- Added plan storage (plans, plan_tasks, plan_blocks) with a migration, re-validated when loaded.
+- Added API: POST, GET and DELETE /plans/{plan_date}, scoped per user.
+- Account export and delete now cover plans, with a guard test that fails if a new user table is not handled.
+
 ## v0.3.0 - Week 3
 - Methodology library: roadblock taxonomy, strictly validated method schema, 11 curated methods
   with honest evidence levels and review dates, coverage report.

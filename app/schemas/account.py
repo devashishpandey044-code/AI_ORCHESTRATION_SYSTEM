@@ -1,6 +1,7 @@
 from datetime import datetime
+from typing import Any
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from app.schemas.constraint import ConstraintOut
 from app.schemas.goal import GoalOut
@@ -16,3 +17,4 @@ class UserExport(BaseModel):
     constraints: list[ConstraintOut]
     life_model_versions: list[LifeModelVersionOut]
     method_experiments: list[ExperimentOut]
+    plans: list[dict[str, Any]] = Field(default_factory=list)
