@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+branch=$(git branch --show-current)
+if [ "$branch" = "main" ] || [ "$branch" = "master" ]; then
+  echo "BLOCKED: you are on '$branch'. Never commit directly on main."
+  echo "Make a branch first:  bash scripts/new-branch.sh feature/your-change"
+  echo "(Your changes are safe. Run that command, then commit there.)"
+  exit 1
+fi

@@ -117,3 +117,11 @@ signal, not a diagnosis: energy-related results always carry a care note.
 
 Local manual testing: `TOKEN=$(bash scripts/token.sh)`, then post a file from `scripts/samples/`.
 The token script uses a throwaway local dev account; never put real credentials in the repo.
+
+## Git workflow (read this when the test count looks wrong)
+
+- Never edit or commit on `main`. Start every change with `bash scripts/new-branch.sh feature/name`.
+- `bash scripts/doctor.sh` shows whether your copy is behind GitHub or on the wrong branch.
+- After a pull request is merged, run `bash scripts/sync-main.sh`, then `bash scripts/doctor.sh`.
+- `bash scripts/check.sh` runs everything CI runs. The count in GitHub Actions on `main` is the truth.
+- In every new Codespace, run `bash scripts/setup-git.sh` once.
