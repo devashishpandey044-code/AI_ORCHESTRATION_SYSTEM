@@ -28,6 +28,10 @@ from app.planning.records import (
 from app.planning.types import PlanError, TaskSpec
 
 
+class GoalNotFound(PlanError):
+    """A task points at a goal that does not exist for this user."""
+
+
 def _plain(value: Any) -> Any:
     return str(value) if isinstance(value, uuid.UUID) else value
 
@@ -40,7 +44,7 @@ def _require_own_goals(session: Session, user_id: Any, task_rows: tuple[dict, ..
         session.scalars(select(Goal.id).where(Goal.user_id == user_id, Goal.id.in_(wanted)))
     )
     if wanted - found:
-        raise PlanError("goal not found")
+        raise GoalNotFound("goal not found")
 
 
 def _delete_plans(session: Session, plan_ids: list[Any]) -> int:
@@ -132,3 +136,11 @@ def export_plans_for_user(session: Session, user_id: Any) -> list[dict[str, Any]
             }
         )
     return exported
+
+
+def delete_day_plan(session: Session, user_id: Any, plan_date: date) -> bool:
+    """Remove one user's plan for one day. False if there was none."""
+    ids = list(
+        session.scalars(select(Plan.id).where(Plan.user_id == user_id, Plan.plan_date == plan_date))
+    )
+    return _delete_plans(session, ids) > 0
