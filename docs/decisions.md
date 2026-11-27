@@ -198,3 +198,9 @@ and the care note present exactly when such a method is shown. It also fails if 
 gets no suggestion, so removing the last method for a roadblock is caught in CI. Known gap:
 goal titles and descriptions are the remaining free-text fields that are not yet screened by the
 crisis check; check-ins in Week 5 must use the same safety function.
+
+## 030 - The scheduler is built on whole-minute half-open intervals
+Plans are checked and built with plain integer minutes after midnight, as [start, end) ranges. Touching
+blocks are not a conflict. There are no time zones, floats or datetimes inside the scheduler, so the
+rules ("no overlap", "inside capacity") are exact and easy to test. Conversion to real dates happens
+only at the edges. Why this matters: ___ (rewrite in your own words).
