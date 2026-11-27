@@ -253,3 +253,9 @@ own words, and link it to the minimum_viable_day method in the library).
 A minimum viable day changes the tasks and the focus limit, so the plan carries the reduced tasks and
 context it was built from. The validator checks the plan against those, and the fallback calls it
 before returning. Why this matters: ___ (rewrite in your own words).
+
+## 037 - The planner has its own eval, and the eval can fail
+Planning is gated like the model-based parts: hand-worked golden days, ten ways of corrupting a plan
+that the validator must notice, and a 1000-day random sweep. Tests prove the eval goes red if the
+validator is blinded or the planner loses a task. Why this matters: ___ (rewrite in your own words,
+and say why a check that cannot fail is worthless).

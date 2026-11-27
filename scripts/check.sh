@@ -14,6 +14,7 @@ run python -m app.evals.safety
 run python -m app.evals.retrieval
 run python -m app.evals.roadblocks
 run python -m app.evals.pipeline
+run python -m app.evals.planning
 if [ "$fail" = "0" ]; then
   echo "ALL CHECKS PASSED"
 else
