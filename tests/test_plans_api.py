@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.pool import StaticPool
 
 from app.api.deps import get_current_user
+from app.db.checkin_models import CheckinOutcomeRow, CheckinRow
 from app.db.models import Base
 from app.db.plan_models import Plan, PlanBlock, PlanTask
 from app.db.session import get_db
@@ -31,7 +32,8 @@ def api():
     engine = create_engine(
         "sqlite://", connect_args={"check_same_thread": False}, poolclass=StaticPool
     )
-    tables = [m.__table__ for m in (Plan, PlanTask, PlanBlock)]
+    models = (Plan, PlanTask, PlanBlock, CheckinRow, CheckinOutcomeRow)
+    tables = [m.__table__ for m in models]
     Base.metadata.create_all(engine, tables=tables)
     current = {"user": USER_A}
 

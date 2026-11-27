@@ -5,7 +5,10 @@ from app.db.models import Base, User
 APP = pathlib.Path(__file__).resolve().parent.parent / "app"
 ACCOUNT_FILES = [APP / "api" / "account.py", *sorted((APP / "services").glob("account*.py"))]
 # Tables whose rows are handled through a helper function instead of a model class name.
-HELPERS = {"plans": ("delete_plans_for_user", "export_plans_for_user")}
+HELPERS = {
+    "plans": ("delete_plans_for_user", "export_plans_for_user"),
+    "checkins": ("delete_checkins_for_user", "export_checkins_for_user"),
+}
 
 
 def _account_source() -> str:

@@ -347,3 +347,13 @@ experiments. Why this matters: ___ (rewrite in your own words).
 **Why:** The risky logic is tested without a database, including 500 random round-trips, and the same pattern already caught a real ordering bug in plan storage.
 
 **Trade-off:** One more layer of small classes. It is worth it because the database code stays too simple to hide bugs.
+
+## 047 - A check-in belongs to one stored plan and goes away with it
+
+**Context:** A check-in only makes sense against the plan it describes. If the plan is replaced or deleted, the old check-in would describe tasks that no longer exist.
+
+**Decision:** There is at most one check-in per stored plan (a unique constraint). Saving checks every reported task against the plan's placed tasks before anything is written, and replaces an earlier check-in for that day. Deleting or replacing a plan deletes its check-in in the same code path, and the database cascades as a second line of defence. Account export and delete cover check-ins, and the guard test lists them.
+
+**Why:** The data can never disagree with itself, and a failed save leaves the old check-in untouched.
+
+**Trade-off:** Re-planning a day discards that day's check-in. That is intended: if the plan changed, the old report is no longer about it.

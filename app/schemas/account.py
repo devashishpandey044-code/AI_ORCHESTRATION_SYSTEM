@@ -18,3 +18,4 @@ class UserExport(BaseModel):
     life_model_versions: list[LifeModelVersionOut]
     method_experiments: list[ExperimentOut]
     plans: list[dict[str, Any]] = Field(default_factory=list)
+    checkins: list[dict[str, Any]] = Field(default_factory=list)
