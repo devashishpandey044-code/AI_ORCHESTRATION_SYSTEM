@@ -427,3 +427,20 @@ experiments. Why this matters: ___ (rewrite in your own words).
 **Why:** If an endpoint, a rule or a response changes in a way that breaks the story, a test fails, so the demo cannot quietly rot. The first end-to-end run found two wrong assumptions of mine (a new account has no life model to update, and suggestions change after an experiment has been tried), which shows the test does its job.
 
 **Trade-off:** The demo credentials are public by design, so the demo account must never hold real data, and a shared hosted database needs the account reset now and then. Roadblocks come from activity data, not from words, because the default model in development is a fake one. The rating suggestion always says "not enough days yet", because the API cannot back-date an experiment. The in-memory test uses SQLite, so the Postgres run is a manual check with `scripts/demo.sh`.
+
+## 055 - Free hosting: Render for the API, Neon for the database
+
+**Context:** The project needs a public URL for interviews, at no cost and without a card. Render's
+free Postgres expires after 30 days, and the app also needs pgvector.
+
+**Decision:** Run the API as a Docker web service on Render (`render.yaml`) and keep the data on
+Neon's free Postgres. Production refuses to start with the development secret or database, or with
+the real model selected and no key. The app accepts `postgres://` and `postgresql://` URLs and
+rewrites them for psycopg 3. Sign-up is open but capped by `MAX_USERS` (200 on the hosted demo), and
+the hosted demo uses the scripted fake model.
+
+**Why:** Open sign-up lets a reviewer try it with their own account. The cap, the fake model and the
+one-gigabyte database bound the worst case to a full demo, not a bill or a leak.
+
+**Trade-off:** Cold starts of about a minute on both hosts. No per-IP rate limit yet, so a hostile
+visitor can fill the cap. Fixing that needs a shared store or a proxy, which is out of scope here.
