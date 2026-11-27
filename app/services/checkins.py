@@ -167,3 +167,27 @@ def export_checkins_for_user(session: Session, user_id: Any) -> list[dict[str, A
             }
         )
     return exported
+
+
+def load_reports(session: Session, user_id: Any, start: date, end: date) -> list[DayReport]:
+    """Plan-versus-actual reports for every day from start to end (inclusive) that has a
+    check-in, oldest first."""
+    days = list(
+        session.scalars(
+            select(Plan.plan_date)
+            .join(CheckinRow, CheckinRow.plan_id == Plan.id)
+            .where(
+                Plan.user_id == user_id,
+                CheckinRow.user_id == user_id,
+                Plan.plan_date >= start,
+                Plan.plan_date <= end,
+            )
+            .order_by(Plan.plan_date)
+        )
+    )
+    reports = []
+    for day in days:
+        report = load_day_report(session, user_id, day)
+        if report is not None:
+            reports.append(report)
+    return reports

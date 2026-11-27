@@ -357,3 +357,13 @@ experiments. Why this matters: ___ (rewrite in your own words).
 **Why:** The data can never disagree with itself, and a failed save leaves the old check-in untouched.
 
 **Trade-off:** Re-planning a day discards that day's check-in. That is intended: if the plan changed, the old report is no longer about it.
+
+## 048 - Check-in API: strict input, 422 for bad content, 404 for missing or foreign
+
+**Context:** A check-in is typed by a person, often tired. The API must reject nonsense without ever storing half of it, and must not reveal whether another user has a plan or check-in.
+
+**Decision:** Input is strict: whole numbers only (a string or a float for minutes is rejected), unknown fields are rejected, and lists and notes have size limits. Rules the field checks cannot see (a skipped task needs a reason, a task reported twice, a task that was not in the plan) come back as 422 from the same domain checks the database layer uses. A missing plan, a missing check-in and another user's data are all 404. The weekly review needs an explicit `end` date and covers the seven days ending on it, so the server never has to guess the user's time zone.
+
+**Why:** One set of rules in code means the API, the storage layer and the tests cannot disagree. Rejecting before writing keeps the stored data clean.
+
+**Trade-off:** A client has to send the date. That is more work for the client, but it avoids wrong-day bugs near midnight.
