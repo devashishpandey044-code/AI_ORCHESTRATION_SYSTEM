@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: ai-life-orchestrator
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: ENV
+        value: prod
+      - key: DATABASE_URL
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: LLM_PROVIDER
+        value: fake
+      - key: MAX_USERS
+        value: "200"
+      - key: CRISIS_REGION
+        value: IN
+      - key: LOG_LEVEL
+        value: INFO

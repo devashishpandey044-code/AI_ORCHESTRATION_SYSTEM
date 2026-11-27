@@ -1,10 +1,11 @@
 from datetime import UTC, datetime
 
 from fastapi import APIRouter, HTTPException
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.exc import IntegrityError
 
 from app.api.deps import CurrentUser, DbSession
+from app.core.config import get_settings
 from app.core.security import create_access_token, hash_password, verify_password
 from app.db.models import User
 from app.schemas.user import LoginRequest, TokenOut, UserCreate, UserOut
@@ -20,6 +21,9 @@ def register(payload: UserCreate, db: DbSession) -> User:
     email = payload.email.lower()
     if db.scalar(select(User).where(User.email == email)) is not None:
         raise HTTPException(status_code=409, detail="Email already registered")
+    limit = get_settings().max_users
+    if limit and db.scalar(select(func.count(User.id))) >= limit:
+        raise HTTPException(status_code=403, detail="Sign-ups are closed: this demo is full.")
     user = User(
         email=email,
         password_hash=hash_password(payload.password),
