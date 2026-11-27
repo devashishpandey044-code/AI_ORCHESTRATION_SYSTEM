@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.5.0 - Check-ins and the weekly review
+
+- Added check-ins: per planned task, done, partial or skipped, with minutes, a reason for a miss, energy and a note. Everything is validated, and bad combinations are rejected.
+- Added a plan-versus-actual comparison: adherence in whole percent, overruns tracked separately, unreported tasks listed.
+- Added a roadblock pattern finder: a reason counts only after repeating on several days, ranked by minutes lost.
+- Added a weekly review with rule-based suggestions (plan less, longer estimates, protect energy, add buffer, smaller starts, keep going). No model call.
+- Added storage (checkins, checkin_outcomes) with a migration. Deleting or replacing a plan removes its check-in. Account export and delete cover check-ins.
+- Added API: PUT, GET and DELETE /checkins/{date}, GET /reviews/weekly, and GET /methods/experiments/{id}/suggested-rating.
+- Added experiment rating suggestions from plan completion during versus before an experiment. The user still decides.
+- Added a check-in eval (golden cases, tampered rows, a seeded sweep) to check.sh and CI, tested against deliberate breakage.
+- Removed duplicate router registrations in app/main.py.
+
 ## v0.4.0 - Daily plan scheduler
 
 - Added whole-minute interval maths and typed plan models (fixed events, sleep, tasks, breaks).
