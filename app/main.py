@@ -18,6 +18,7 @@ from app.api import (
     plans,
     reviews,
     roadblocks,
+    usage,
 )
 from app.core.config import get_settings
 from app.core.logging import setup_logging
@@ -61,6 +62,7 @@ def create_app() -> FastAPI:
     app.include_router(checkins.router)
     app.include_router(reviews.router)
     app.include_router(experiment_ratings.router)
+    app.include_router(usage.router)
     app.include_router(constraints.router)
     return app
 

@@ -407,3 +407,13 @@ experiments. Why this matters: ___ (rewrite in your own words).
 **Why:** The numbers quoted in the README come from the code, not from memory, and they cannot go stale without CI saying so. Capturing each eval's printed summary means a new line in an eval shows up in the report with no change to the report script.
 
 **Trade-off:** Changing any eval output means regenerating the report, which is one command but a small extra step. The report is only as precise as each eval's printed summary, and it says plainly that the model is scripted and the labels are hand-written.
+
+## 053 - Usage and cost summary is per user, whole-number maths, and says it is an estimate
+
+**Context:** Every model call is stored as metadata (tokens, latency, success, model). Without a summary, nobody can tell whether the model part is healthy or what it costs. There is no admin role in the product, and adding one only for this would be a bigger decision than the summary itself.
+
+**Decision:** `GET /usage?days=7` (1 to 90) returns the signed-in user's own calls: count, failures, success percent, retries, tokens in and out, p50 and p95 latency, and estimated cost, overall and per purpose and per model. The maths is a pure module over plain rows. Money is whole micro-dollars, the percent is a whole number rounded half up, and percentiles use the nearest-rank method, so there is no floating-point drift and the cost is rounded once at the end. A model with no known price is counted in `unpriced_calls` and never costed by a guess. A damaged stored row is a 500, not a wrong number, and error text from the provider is never returned.
+
+**Why:** It follows the rule that per-user data is scoped to the user, and it answers "is it healthy and what does it cost" with numbers that can be checked by hand. Tests pin the cost to hand calculations, including the price tier above 100,000 input tokens, and break the tier boundary, the rounding, the percentile rank and retry counting on purpose.
+
+**Trade-off:** There is no system-wide view yet, so an operator cannot see total spend across users; that needs an operator role or a command-line report and is left for later. Prices are written in code from news reports, not from Anthropic's own price page, so they must be checked there and updated by hand when they change. Cache pricing is not modelled because cache usage is not stored.
