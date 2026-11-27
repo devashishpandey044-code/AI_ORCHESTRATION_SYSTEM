@@ -1,0 +1,25 @@
+slug: consistent_wake_time
+title: A consistent wake-up time
+summary: Wake up at about the same time every day, including weekends, to steady your body clock and daytime energy.
+targets: [low_energy]
+target_behavior: Keep wake-up time within about an hour on every day of the week.
+difficulty: medium
+duration_minutes: 10
+schedule_kind: daily_block
+steps:
+  - Choose a wake-up time that fits your classes and allows enough sleep, and write it down.
+  - Set the alarm for that time on every day of the week, including weekends, and keep to it within about an hour.
+  - Get daylight and some movement soon after waking, even for a few minutes.
+  - Move bedtime earlier in small steps if you are not getting enough sleep.
+  - Track your wake-up time and your energy for two weeks and compare.
+ideal_context: Students whose sleep times drift later across the week, or who feel tired and sluggish in the morning.
+contraindications:
+  - Do not cut sleep to fit a new wake-up time, because too little sleep makes low energy worse.
+  - Shift workers and people with medical sleep conditions may need advice that fits their situation.
+measurement: Wake-up time spread across the week in minutes, and a self-rated energy score from one to five each day.
+evidence_level: limited
+evidence_note: Observational studies in students link irregular sleep timing with poorer sleep and performance, but that does not prove that fixing the timing causes improvement.
+sources:
+  - "Phillips, A. J. K., Clerx, W. M., O'Brien, C. S., Sano, A., Barger, L. K., Picard, R. W., Lockley, S. W., Klerman, E. B., & Czeisler, C. A. (2017). Irregular sleep/wake patterns are associated with poorer academic performance and delayed circadian and sleep/wake timing. Scientific Reports, 7, 3216."
+escalation_note: If you have trouble sleeping for weeks, feel very tired even after enough sleep, or notice your mood or appetite changing, please talk to a doctor. This method is not a treatment for sleep problems.
+reviewed_on: null

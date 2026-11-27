@@ -1,0 +1,26 @@
+slug: spaced_review
+title: Spaced review
+summary: Revisit material at growing intervals over days and weeks instead of cramming it into one sitting.
+targets: [ineffective_learning]
+target_behavior: Space study of the same material across several days before an exam.
+difficulty: medium
+duration_minutes: 20
+schedule_kind: daily_block
+steps:
+  - List the topics you need to know and the exam date, and count the days available.
+  - After first learning a topic, schedule a short review the next day, then a few days later, then a week later.
+  - At each review, test yourself first and only look at your notes to check and correct.
+  - Put the review sessions into your calendar now, so they do not depend on remembering.
+  - Move topics you keep forgetting to more frequent reviews, and push easy ones further out.
+ideal_context: Courses with a long runway before the exam, and subjects with many facts, formulas or definitions.
+contraindications:
+  - Cramming is sometimes unavoidable close to an exam, so use the days you have rather than skipping the method.
+  - Reviewing without trying to recall first turns this into rereading, which helps much less.
+measurement: Share of scheduled review sessions completed, and quiz scores on older topics over time.
+evidence_level: strong
+evidence_note: Many experiments show that spreading study over time improves long-term retention compared with massing it, and a major review rated distributed practice as high utility.
+sources:
+  - "Dunlosky, J., Rawson, K. A., Marsh, E. J., Nathan, M. J., & Willingham, D. T. (2013). Improving students' learning with effective learning techniques: Promising directions from cognitive and educational psychology. Psychological Science in the Public Interest, 14(1), 4-58."
+  - "Cepeda, N. J., Pashler, H., Vul, E., Wixted, J. T., & Rohrer, D. (2006). Distributed practice in verbal recall tasks: A review and quantitative synthesis. Psychological Bulletin, 132(3), 354-380."
+escalation_note: null
+reviewed_on: null

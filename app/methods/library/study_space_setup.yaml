@@ -1,0 +1,25 @@
+slug: study_space_setup
+title: A dedicated study spot
+summary: Pick one place and setup that you use only for focused study, so the place itself becomes a cue to start.
+targets: [poor_environment]
+target_behavior: Start focused work quickly in the same prepared place each day.
+difficulty: easy
+duration_minutes: 15
+schedule_kind: setup_once
+steps:
+  - Choose one spot that is reasonably quiet and has a proper desk or table, and use it mainly for study.
+  - Remove what does not belong there, such as snacks, games and extra devices, and keep what you need within reach.
+  - Prepare it before you finish each day, with the next task and materials laid out.
+  - Sit down at the time you planned, and begin with the first small action right away.
+  - If the spot stops working, change one thing at a time, such as lighting or seating, and notice the effect.
+ideal_context: Shared rooms, hostels and homes where study happens on the bed or in noisy common areas.
+contraindications:
+  - If no quiet space is available, a library or a regular time slot can serve the same purpose.
+  - Do not spend days perfecting the setup, because starting the work matters more than the desk.
+measurement: Number of study sessions per week started in the spot, and minutes from sitting down to starting.
+evidence_level: limited
+evidence_note: Habit research shows that repeated behaviour in a stable context becomes more automatic, but there is little research on study spots specifically, so treat this as a low-cost experiment.
+sources:
+  - "Wood, W., & Neal, D. T. (2007). A new look at habits and the habit-goal interface. Psychological Review, 114(4), 843-863."
+escalation_note: null
+reviewed_on: null
