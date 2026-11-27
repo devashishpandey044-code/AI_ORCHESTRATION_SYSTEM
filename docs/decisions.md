@@ -397,3 +397,13 @@ experiments. Why this matters: ___ (rewrite in your own words).
 **Why:** It is the one number that says the pieces work together, and it runs free and offline because the model is scripted. It reuses `run_case` instead of copying it, so the pipeline eval and the persona eval cannot drift apart. Tests break a label, the validator and the adherence figure on purpose and check that each turns the eval red.
 
 **Trade-off:** The model is scripted, so this checks what the code does with a model answer, not how good a real model's answers are. The personas and their expected labels are written by hand, so they encode my own guesses about users, and five day shapes are reused across all of them. A real-model run on a small set of personas is a later, separate step.
+
+## 052 - One generated eval report, and CI fails if it is stale
+
+**Context:** Eight evals each print their own summary. A reader, or an interviewer, has no single place to see what is checked, what the numbers are and what is not proven.
+
+**Decision:** `python -m app.evals.report` runs every eval's `main()`, captures what it prints and writes `docs/eval-report.md`: a table of all evals with PASS or FAIL, each eval's own output, and a section on what the evals do not prove. The report holds no dates or timings, so it only changes when a result changes. `--check` fails if the committed file differs from a fresh run or if any eval fails, and it runs in `scripts/check.sh` and CI.
+
+**Why:** The numbers quoted in the README come from the code, not from memory, and they cannot go stale without CI saying so. Capturing each eval's printed summary means a new line in an eval shows up in the report with no change to the report script.
+
+**Trade-off:** Changing any eval output means regenerating the report, which is one command but a small extra step. The report is only as precise as each eval's printed summary, and it says plainly that the model is scripted and the labels are hand-written.
