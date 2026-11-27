@@ -317,3 +317,13 @@ experiments. Why this matters: ___ (rewrite in your own words).
 **Why:** Adherence should answer "how much of the plan happened", and overruns are a separate signal (the user underestimates), useful for suggesting longer estimates later.
 
 **Trade-off:** A user who finishes everything and then some shows 100%, not more. That is intended.
+
+## 044 - A roadblock needs repetition across days, and is ranked by minutes lost
+
+**Context:** The system should name what keeps blocking the user, but a single bad day says little.
+
+**Decision:** A reason counts as a roadblock only after at least 3 occurrences on at least 2 different days (both adjustable). Roadblocks are ranked by planned minutes lost, with ties broken by count and then by reason name, so output is deterministic. Estimation bias is reported separately, from finished tasks only.
+
+**Why:** Fixing the biggest recurring cost first helps most, and partial tasks would distort the estimate because they were cut short.
+
+**Trade-off:** A new user needs a few days of data before any pattern appears. Showing nothing is better than guessing from one day.
