@@ -327,3 +327,13 @@ experiments. Why this matters: ___ (rewrite in your own words).
 **Why:** Fixing the biggest recurring cost first helps most, and partial tasks would distort the estimate because they were cut short.
 
 **Trade-off:** A new user needs a few days of data before any pattern appears. Showing nothing is better than guessing from one day.
+
+## 045 - Weekly suggestions come from fixed rules, not a model
+
+**Context:** The weekly review must tell the user what to change. A model could write it, but then the advice could not be tested, and it could contradict the data.
+
+**Decision:** Suggestions are chosen by thresholds in code (under 60% adherence plans less, 125% or more estimate ratio lengthens estimates, 30% or more unreported asks for more check-ins, and so on). Each has a fixed message and the number it is based on. With fewer than 3 days of data the only suggestion is to keep checking in.
+
+**Why:** Every suggestion can be traced to a number, tested, and explained in an interview. A model can later reword the messages, but the code decides which ones apply.
+
+**Trade-off:** The thresholds are my first guesses and will need tuning with real use. The messages are plain, not personal.
