@@ -11,7 +11,7 @@ A task is placed whole or not at all. What cannot be placed is reported with a r
 from __future__ import annotations
 
 from dataclasses import dataclass
-from enum import Enum
+from enum import StrEnum
 
 from app.planning.intervals import Interval, subtract
 from app.planning.types import (
@@ -27,7 +27,7 @@ from app.planning.types import (
 _TITLE_LIMIT = 120
 
 
-class UnplacedReason(str, Enum):
+class UnplacedReason(StrEnum):
     OVER_FOCUS_CAPACITY = "over_focus_capacity"
     NO_SPACE = "no_space"
 
