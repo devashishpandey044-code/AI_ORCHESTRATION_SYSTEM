@@ -125,3 +125,13 @@ The token script uses a throwaway local dev account; never put real credentials 
 - After a pull request is merged, run `bash scripts/sync-main.sh`, then `bash scripts/doctor.sh`.
 - `bash scripts/check.sh` runs everything CI runs. The count in GitHub Actions on `main` is the truth.
 - In every new Codespace, run `bash scripts/setup-git.sh` once.
+
+## Method selection and experiments
+
+`POST /methods/suggest` takes roadblocks (and optionally a short description) and returns at most
+two methods from the library with reasons, steps, contraindications, evidence and any escalation
+note. It calls no model. Methods the user is already trying are left out, and ones they abandoned
+or rated poorly are demoted. `POST /methods/experiments` records the method the user chose,
+`POST /methods/experiments/{id}/end` records the outcome and a 1 to 5 rating, and `GET /methods`
+lists the whole library. Experiments hold only structured fields, so no free text bypasses the
+safety check.
