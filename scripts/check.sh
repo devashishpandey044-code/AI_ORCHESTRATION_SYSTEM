@@ -11,6 +11,7 @@ run python -m pytest -q
 run ruff check .
 run python -m app.evals.grounding
 run python -m app.evals.safety
+run python -m app.evals.scope
 run python -m app.evals.retrieval
 run python -m app.evals.roadblocks
 run python -m app.evals.pipeline

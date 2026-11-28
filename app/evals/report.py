@@ -26,6 +26,7 @@ EVALS = (
         "Quotes the model gives must really be in the user's words.",
     ),
     ("Safety", "app.evals.safety", "Crisis language stops everything and the model is not called."),
+    ("Scope", "app.evals.scope", "Health, substance and safety problems never get a practice."),
     ("Retrieval", "app.evals.retrieval", "A question finds the right method in the library."),
     ("Roadblocks", "app.evals.roadblocks", "Rules turn activity data into the right roadblocks."),
     (
