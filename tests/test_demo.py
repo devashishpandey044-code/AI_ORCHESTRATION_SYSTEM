@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import UTC, date, datetime
 
 import pytest
 
@@ -8,7 +8,14 @@ from app.demo.run import DemoError, run_demo
 from app.planning.schemas import PlanRequest
 from app.schemas.roadblocks import ExecutionSummary
 
-TODAY = date(2026, 11, 27)
+# Must track the clock the database uses for
+# MethodExperiment.started_at: a fixed date here passes
+# once, then fails every day after.
+TODAY = datetime.now(UTC).date()
+
+# A fixed day for the pure date arithmetic below,
+# which touches no database.
+FIXED_DAY = date(2026, 11, 27)
 
 
 def _quiet(_line: str) -> None:
@@ -36,7 +43,7 @@ def test_the_demo_activity_data_is_valid():
 
 
 def test_the_week_is_the_five_days_before_today_oldest_first():
-    days = data.week_dates(TODAY)
+    days = data.week_dates(FIXED_DAY)
     assert [d.isoformat() for d in days] == [
         "2026-11-22",
         "2026-11-23",
