@@ -231,5 +231,6 @@ class MethodExperiment(Base):
 # Keep last: registers the plan tables on Base.metadata.
 from app.db import (  # noqa: E402
     checkin_models,  # noqa: F401
+    intake_models,  # noqa: F401
     plan_models,  # noqa: F401
 )

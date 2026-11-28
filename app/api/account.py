@@ -4,10 +4,12 @@ from fastapi import APIRouter, Response
 from sqlalchemy import delete, select
 
 from app.api.deps import CurrentUser, DbSession
+from app.db.intake_models import IntakeAnswer, Obstacle
 from app.db.models import Goal, LifeModelVersion, LLMCall, MethodExperiment, ScheduleConstraint
 from app.schemas.account import UserExport
 from app.schemas.constraint import ConstraintOut
 from app.schemas.goal import GoalOut
+from app.schemas.intake import IntakeAnswerOut, ObstacleOut
 from app.schemas.life_model import LifeModelVersionOut
 from app.schemas.user import UserOut
 from app.services.checkins import delete_checkins_for_user, export_checkins_for_user
@@ -37,6 +39,16 @@ def export_my_data(user: CurrentUser, db: DbSession) -> UserExport:
         .where(MethodExperiment.user_id == user.id)
         .order_by(MethodExperiment.started_at, MethodExperiment.id)
     )
+    answers = db.scalars(
+        select(IntakeAnswer)
+        .where(IntakeAnswer.user_id == user.id)
+        .order_by(IntakeAnswer.question_key)
+    )
+    obstacles = db.scalars(
+        select(Obstacle)
+        .where(Obstacle.user_id == user.id)
+        .order_by(Obstacle.created_at, Obstacle.id)
+    )
     return UserExport(
         exported_at=datetime.now(UTC),
         user=UserOut.model_validate(user),
@@ -44,6 +56,8 @@ def export_my_data(user: CurrentUser, db: DbSession) -> UserExport:
         constraints=[ConstraintOut.model_validate(c) for c in constraints],
         life_model_versions=[LifeModelVersionOut.model_validate(v) for v in versions],
         method_experiments=[experiment_to_out(e) for e in experiments],
+        intake_answers=[IntakeAnswerOut.model_validate(a) for a in answers],
+        obstacles=[ObstacleOut.model_validate(o) for o in obstacles],
         plans=export_plans_for_user(db, user.id),
         checkins=export_checkins_for_user(db, user.id),
     )
@@ -59,6 +73,8 @@ def delete_my_account(user: CurrentUser, db: DbSession) -> Response:
     db.execute(delete(ScheduleConstraint).where(ScheduleConstraint.user_id == user.id))
     db.execute(delete(LifeModelVersion).where(LifeModelVersion.user_id == user.id))
     db.execute(delete(MethodExperiment).where(MethodExperiment.user_id == user.id))
+    db.execute(delete(IntakeAnswer).where(IntakeAnswer.user_id == user.id))
+    db.execute(delete(Obstacle).where(Obstacle.user_id == user.id))
     db.execute(delete(LLMCall).where(LLMCall.user_id == user.id))
     db.delete(user)
     db.commit()
