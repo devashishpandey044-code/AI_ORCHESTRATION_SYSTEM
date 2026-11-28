@@ -234,8 +234,10 @@ function planCard(plan) {
   return h("section", { class: "card" },
     h("p", {}, h("strong", {}, label(plan.mode)), " - ", plan.reason),
     h("p", { class: "muted" }, plan.focus_minutes + " minutes of focus work planned."),
-    h("ul", { class: "blocks" }, plan.blocks.map((b) =>
-      h("li", { class: "block " + b.kind }, h("span", { class: "time" }, b.start + " - " + b.end), " ", b.title))),
+    h("div", { class: "timeline" }, plan.blocks.map((b) =>
+      h("div", { class: "slot " + b.kind },
+        h("span", { class: "time" }, b.start + " - " + b.end),
+        h("div", { class: "what" }, h("span", { class: "dot" }), h("span", { class: "name" }, b.title))))),
     noteList("Could not fit", plan.unplaced),
     noteList("Dropped", plan.dropped),
     noteList("Shortened", plan.trimmed),
