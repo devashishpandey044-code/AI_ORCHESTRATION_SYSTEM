@@ -13,6 +13,7 @@ from app.api import (
     experiment_ratings,
     goals,
     health,
+    intake,
     life_model,
     methods,
     onboarding,
@@ -66,6 +67,8 @@ def create_app() -> FastAPI:
     app.include_router(experiment_ratings.router)
     app.include_router(usage.router)
     app.include_router(constraints.router)
+    app.include_router(intake.router)
+    app.include_router(intake.obstacles_router)
     app.include_router(ui.router)
     app.mount("/ui", StaticFiles(directory=ui.UI_DIR), name="ui")
     return app
